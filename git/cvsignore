@@ -1,0 +1,11 @@
+# OSX
+.DS_Store
+
+# swap files
+*~
+.*.swp
+
+# compiled files
+*.o
+*.pyc
+*.class

@@ -1,0 +1,22 @@
+[alias]
+    fa = fetch --all
+    ma = checkout master
+    co = checkout
+    lb = checkout -
+	ctags = !.git/hooks/ctags
+    st = status -sb
+
+[color]
+    ui = auto
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    grep = auto
+
+[core]
+	excludesfile = ~/.cvsignore
+	pager = less -S
+
+[init]
+	templatedir = ~/.git_template
