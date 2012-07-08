@@ -1,4 +1,4 @@
-" Use Vim settings, rather then Vi settings (much better!)
+" Use Vim settings, rather than Vi settings
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
@@ -34,6 +34,8 @@ set nowrap
 set backspace=indent,eol,start
 
 " ====== searching
+" search as we type
+set incsearch
 " highlight searches
 set hlsearch
 " ignore case when searching
