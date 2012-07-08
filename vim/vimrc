@@ -1,0 +1,139 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" ====== pathogen initialization
+runtime bundle/pathogen/autoload/pathogen.vim
+call pathogen#infect()
+call pathogen#helptags()
+
+" ====== general
+" line numbers
+set number
+" show incomplete commands at the bottom
+set showcmd
+" show current mode at the bottom
+set showmode
+set ruler
+" indentation shift for << and >>
+set shiftwidth=4
+" insert spaces instead of tabs
+set expandtab
+" length of tab to be used by expandtab
+set tabstop=4
+" use tab to indent by shiftwidth
+set smarttab
+" reload changed files
+set autoread
+set encoding=utf-8
+" show two lines for commands
+set cmdheight=2
+" don't wrap overly long lines
+set nowrap
+
+" ====== searching
+" search as we type
+set incsearch
+" highlight searches
+set hlsearch
+" ignore case when searching
+set ignorecase
+" witch to case sensitive when some tabs are used
+set smartcase
+
+" hopefully some speed-up
+set ttyfast
+set ttyscroll=3
+set lazyredraw
+
+" ====== folding
+" don't fold by default
+set nofoldenable
+" fold at most 3 levels
+set foldnestmax=3
+" fold based on expression
+set foldmethod=expr
+
+" ====== scrolling
+" scroll when cursor is 5 lines away from top or bottom
+set scrolloff=5
+" scroll when cursor is 5 chars away from left or right
+set sidescrolloff=5
+" minimal distance to scroll horizontally
+set sidescroll=1
+
+" ====== persistent undo
+" eep undo history across sessions by storing in file
+silent !mkdir ~/.vim/backups > /dev/null 2>&1
+set undodir=~/.vim/backups
+set undofile
+
+" ====== shortcuts
+set pastetoggle=<F2>
+
+" FuzzyFinger mappings
+map FF :FufCoverageFile<CR>
+map FT :FufTag<CR>
+map FC :FufRenewCache<CR>
+map FD :FufDir<CR>
+
+map CW :cw<CR>
+map CN :cn<CR>
+
+" prevent arrow key usage
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
+" ====== plugin settings
+let python_highlight_all=1
+
+" FuzzyFinder settings
+let g:fuf_file_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_coveragefile_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_maxMenuWidth=100
+
+" ====== appearance
+set t_Co=256
+if has('gui_running')
+    set background=dark
+    let g:solarized_termcolors=256
+else
+    set background=dark
+    let g:solarized_termcolors=16
+endif
+colorscheme solarized
+
+set cursorcolumn
+set colorcolumn=100
+highlight colorcolumn guifg=#ffffd7 guibg=#dc322f ctermfg=15 ctermbg=1
+
+" display tabs and trailing spaces visually
+set list listchars=tab:\ \ ,trail:·
+
+" auto commands
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+
+autocmd!
+" resource .vimrc if it has been edited
+autocmd BufWritePost .vimrc source %
+autocmd BufWrite * :call DeleteTrailingWS()
+
+autocmd FileType c,cpp,cs,java setlocal ai et sta sw=4 sts=4 cin
+autocmd FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
+autocmd FileType gitcommit setlocal spell
+autocmd FileType python set complete+=k~/.vim/syntax/python.vim
+autocmd FileType text,txt setlocal tw=78 linebreak nolist
+autocmd FileType vim setlocal ai et sta sw=2 sts=2
+autocmd FileType sh,csh,tcsh,zsh setlocal ai et sta sw=4 sts=4
+autocmd FileType javascript setlocal ai et sta sw=2 sts=2 ts=2 cin isk+=$
+
+syntax on
+filetype on
+filetype plugin on
+filetype indent on

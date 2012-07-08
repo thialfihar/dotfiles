@@ -1,3 +1,24 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git@github.com:thialfihar/oh-my-zsh
+[submodule "vim/vim/bundle/pathogen"]
+	path = vim/vim/bundle/pathogen
+	url = git@github.com:tpope/vim-pathogen
+[submodule "vim/vim/bundle/git"]
+	path = vim/vim/bundle/git
+	url = git@github.com:tpope/vim-git
+[submodule "vim/vim/bundle/fugitive"]
+	path = vim/vim/bundle/fugitive
+	url = git@github.com:tpope/vim-fugitive
+[submodule "vim/vim/bundle/colors-solarized"]
+	path = vim/vim/bundle/colors-solarized
+	url = git@github.com:skwp/vim-colors-solarized
+[submodule "vim/vim/bundle/indexedsearch"]
+	path = vim/vim/bundle/indexedsearch
+	url = git@github.com:vim-scripts/IndexedSearch
+[submodule "vim/vim/bundle/fuzzyfinder"]
+	path = vim/vim/bundle/fuzzyfinder
+	url = git@github.com:vim-scripts/FuzzyFinder
+[submodule "vim/vim/bundle/l9"]
+	path = vim/vim/bundle/l9
+	url = git@github.com:vim-scripts/L9
