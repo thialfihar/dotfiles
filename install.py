@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import platform
 import shutil
 import subprocess
 
@@ -47,7 +48,19 @@ dotfiles = [('git/cvsignore', '~/.cvsignore'),
 
             ('oh-my-zsh', '~/.oh-my-zsh'),
             ('oh-my-zsh/zshrc', '~/.zshrc'),
+
+            ('xmonad/xmonad', '~/.xmonad', 'linux'),
+            ('xmonad/xmobarrc', '~/.xmobarrc', 'linux'),
            ]
 
-for dotfile, destination in dotfiles:
-    install(dotfile, destination)
+for mapping in dotfiles:
+    if len(mapping) == 3:
+        source, destination, system = mapping
+    else:
+        source, destination = mapping
+        system = None
+
+    if system and not platform.system().lower() == system:
+        continue
+
+    install(source, destination)
