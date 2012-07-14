@@ -9,3 +9,8 @@
 *.o
 *.pyc
 *.class
+
+# vim bundle stuff
+doc/tags
+doc/tags-ja
+
