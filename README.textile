@@ -1,0 +1,18 @@
+Dotfiles!
+
+h2. Dependencies
+
+* zsh
+* vim
+* git
+* gitk
+* python
+Optional:
+* xmonad
+* xmobar
+
+h2. Setup
+
+  @git submodule update --init@
+
+
