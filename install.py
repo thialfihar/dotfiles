@@ -4,63 +4,72 @@ import platform
 import shutil
 import subprocess
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+class Dotfile:
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-def install(dotfile, destination):
-    source = os.path.join(BASE_DIR, dotfile)
-    destination = os.path.expanduser(destination)
+    def __init__(self, source, destination, platform=None, test=None):
+        self.source = source
+        self.destination = destination
+        self.platform = platform
+        self.test = test
 
-    print "installing %s -> %s..." % (source, destination)
-    if os.path.lexists(destination):
-        if not os.path.islink(destination):
-            while True:
-                delete = raw_input("%s (%s) exists and isn't a symlink, delete? (Y/n) " % \
-                                     (destination,
-                                      'directory' if os.path.isdir(destination) else 'file'))
-                delete = delete.strip().lower()
-                if delete == 'y' or not delete:
-                    delete = True
-                    break
-                elif delete == 'n':
-                    delete = False
-                    break
-        else:
-            delete = True
+    def install(self):
+        if self.platform:
+            if self.platform != platform.system().lower():
+                print "ignoring %s because it requires %s..." % (self.destination, self.platform)
+                return
 
-        if not delete:
-            return
+        if self.test:
+            if subprocess.call(self.test, shell=True,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE):
+                print "ignoring %s because this test failed: %s" % (self.destination, self.test)
+                return
 
-        if os.path.islink(destination) or \
-           os.path.isfile(destination):
-            os.remove(destination)
-        else:
-            shutil.rmtree(destination)
+        source = os.path.join(self.BASE_DIR, self.source)
+        destination = os.path.expanduser(self.destination)
 
-    os.symlink(source, destination)
+        print "installing %s -> %s..." % (self.source, self.destination)
+        if os.path.lexists(destination):
+            if not os.path.islink(destination):
+                while True:
+                    delete = raw_input("%s (%s) exists and isn't a symlink, delete? (Y/n) " % \
+                                         (destination,
+                                          'directory' if os.path.isdir(destination) else 'file'))
+                    delete = delete.strip().lower()
+                    if delete == 'y' or not delete:
+                        delete = True
+                        break
+                    elif delete == 'n':
+                        delete = False
+                        break
+            else:
+                delete = True
 
-dotfiles = [('git/cvsignore', '~/.cvsignore'),
-            ('git/git_template', '~/.git_template'),
-            ('git/gitconfig', '~/.gitconfig'),
-            ('git/gitk', '~/.gitk'),
+            if not delete:
+                return
 
-            ('vim/vim', '~/.vim'),
-            ('vim/vimrc', '~/.vimrc'),
+            if os.path.islink(destination) or \
+               os.path.isfile(destination):
+                os.remove(destination)
+            else:
+                shutil.rmtree(destination)
 
-            ('oh-my-zsh', '~/.oh-my-zsh'),
-            ('oh-my-zsh/zshrc', '~/.zshrc'),
+        os.symlink(source, destination)
 
-            ('xmonad/xmonad', '~/.xmonad', 'linux'),
-            ('xmonad/xmobarrc', '~/.xmobarrc', 'linux'),
+dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
+            Dotfile('git/git_template', '~/.git_template'),
+            Dotfile('git/gitconfig', '~/.gitconfig'),
+            Dotfile('git/gitk', '~/.gitk'),
+
+            Dotfile('vim/vim', '~/.vim'),
+            Dotfile('vim/vimrc', '~/.vimrc'),
+
+            Dotfile('oh-my-zsh', '~/.oh-my-zsh'),
+            Dotfile('oh-my-zsh/zshrc', '~/.zshrc'),
+
+            Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
+            Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
            ]
 
-for mapping in dotfiles:
-    if len(mapping) == 3:
-        source, destination, system = mapping
-    else:
-        source, destination = mapping
-        system = None
-
-    if system and not platform.system().lower() == system:
-        continue
-
-    install(source, destination)
+for dotfile in dotfiles:
+    dotfile.install()
