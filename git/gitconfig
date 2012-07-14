@@ -20,3 +20,8 @@
 
 [init]
 	templatedir = ~/.git_template
+
+[user]
+    name = Thialfihar
+    email = thi@thialfihar.org
+
