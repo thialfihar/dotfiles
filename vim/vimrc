@@ -32,8 +32,6 @@ set cmdheight=2
 set nowrap
 
 " ====== searching
-" search as we type
-set incsearch
 " highlight searches
 set hlsearch
 " ignore case when searching
