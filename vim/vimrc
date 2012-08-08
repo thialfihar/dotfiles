@@ -30,6 +30,8 @@ set encoding=utf-8
 set cmdheight=2
 " don't wrap overly long lines
 set nowrap
+" let backspace behave sensibly
+set backspace=indent,eol,start
 
 " ====== searching
 " highlight searches
@@ -68,6 +70,15 @@ set undofile
 
 " ====== shortcuts
 set pastetoggle=<F2>
+
+" ====== gui
+" remove toolbar
+set guioptions-=T
+" remove menubar
+set guioptions-=m
+" remove scrollbars
+set guioptions+=LlRrb
+set guioptions-=LlRrb
 
 " FuzzyFinger mappings
 map FF :FufCoverageFile<CR>
