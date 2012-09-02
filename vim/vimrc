@@ -1,4 +1,4 @@
-" Use Vim settings, rather then Vi settings (much better!).
+" Use Vim settings, rather then Vi settings (much better!)
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
@@ -131,7 +131,9 @@ endfunc
 autocmd!
 " resource .vimrc if it has been edited
 autocmd BufWritePost .vimrc source %
-autocmd BufWrite * :call DeleteTrailingWS()
+autocmd BufWrite * call DeleteTrailingWS()
+autocmd WinEnter * highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+autocmd WinEnter * match OverLength /\%>100v.\+/
 
 autocmd FileType c,cpp,cs,java setlocal ai et sta sw=4 sts=4 cin
 autocmd FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
@@ -146,3 +148,7 @@ syntax on
 filetype on
 filetype plugin on
 filetype indent on
+
+" status line
+set statusline=%{fugitive#statusline()}\ %=\ col:%c%V\ line:%l,%L\ %P
+
