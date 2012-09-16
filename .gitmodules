@@ -22,3 +22,6 @@
 [submodule "vim/vim/bundle/l9"]
 	path = vim/vim/bundle/l9
 	url = git@github.com:vim-scripts/L9
+[submodule "vim/vim/bundle/ropevim"]
+	path = vim/vim/bundle/ropevim
+	url = git@github.com:peplin/ropevim
