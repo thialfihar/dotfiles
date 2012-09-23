@@ -1,4 +1,5 @@
 import XMonad
+import XMonad.Actions.WorkspaceNames
 import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
@@ -43,7 +44,7 @@ myModMask       = mod1Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["shell", "dev", "df", "4", "5", "6", "7", "8", "9"]
+myWorkspaces    = ["web", "shell", "dev", "git", "db", "6", "7", "df"] -- ++ map show [9]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -184,7 +185,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = smartBorders $ onWorkspace "df" Full $
+myLayout = smartBorders $
+           onWorkspace "df" Full $
            tiled ||| Mirror tiled ||| Full
   where
     -- default tiling algorithm partitions the screen into two panes
@@ -219,6 +221,10 @@ myManageHook = composeAll
       className =? "gnome-panel" --> doIgnore,
       className =? "Dwarf_Fortress" --> viewShift "df",
       className =? "DwarfTherapist" --> viewShift "df",
+      className =? "Gitk" --> viewShift "git",
+      className =? "Git-gui" --> viewShift "git",
+      className =? "Gitg" --> viewShift "git",
+      className =? "Git-cola" --> viewShift "git",
       resource  =? "desktop_window" --> doIgnore,
       resource  =? "kdesktop"       --> doIgnore ]
     where
@@ -249,10 +255,17 @@ myEventHook = mempty
 -- It will add EWMH logHook actions to your custom log hook by
 -- combining it with ewmhDesktopsLogHook.
 --
-myLogHook h = dynamicLogWithPP $ xmobarPP
-                    { ppOutput = hPutStrLn h,
-                      ppTitle = xmobarColor "green" "" . shorten 50
-                    }
+myLogHook h = workspaceNamesPP xmobarPP
+                                        { ppOutput = hPutStrLn h
+                                        , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
+                                        , ppHidden = xmobarColor "white" ""
+                                        , ppHiddenNoWindows = xmobarColor "darkgray" ""
+                                        , ppUrgent = xmobarColor "blue" "gray"
+                                        , ppSep = " | "
+                                        , ppLayout = xmobarColor "orange" "" . trim
+                                        , ppTitle = xmobarColor "green" "" . trim
+                                        } >>= dynamicLogWithPP
+-- >> takeTopFocus
 
 ------------------------------------------------------------------------
 -- Startup hook

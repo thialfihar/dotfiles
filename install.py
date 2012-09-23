@@ -69,6 +69,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
 
             Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
             Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
+            Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
            ]
 
 for dotfile in dotfiles:
