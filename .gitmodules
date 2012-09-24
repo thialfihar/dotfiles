@@ -25,3 +25,12 @@
 [submodule "vim/vim/bundle/ropevim"]
 	path = vim/vim/bundle/ropevim
 	url = git@github.com:peplin/ropevim
+[submodule "vim/vim/bundle/ack"]
+	path = vim/vim/bundle/ack
+	url = git@github.com:mileszs/ack.vim
+[submodule "modules/ls-colors-solarized"]
+	path = modules/ls-colors-solarized
+	url = git@github.com:sigurdga/ls-colors-solarized
+[submodule "modules/gnome-terminal-colors-solarized"]
+	path = modules/gnome-terminal-colors-solarized
+	url = git@github.com:sigurdga/gnome-terminal-colors-solarized
