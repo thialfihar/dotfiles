@@ -2,30 +2,42 @@
 import os
 import platform
 import shutil
+import stat
 import subprocess
+import sys
 
-class Dotfile:
-    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-    def __init__(self, source, destination, platform=None, test=None):
-        self.source = source
-        self.destination = destination
+class Base(object):
+    def __init__(self, name=None, platform=None, test=None):
+        self.name = name
         self.platform = platform
-        self.test = test
+        self.test_command = test
 
-    def install(self):
+    def test(self):
         if self.platform:
             if self.platform != platform.system().lower():
-                print "ignoring %s because it requires %s..." % (self.destination, self.platform)
-                return
+                print "ignoring %s because it requires %s..." % (self.name, self.platform)
 
-        if self.test:
-            if subprocess.call(self.test, shell=True,
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE):
-                print "ignoring %s because this test failed: %s" % (self.destination, self.test)
-                return
+        if self.test_command and \
+           subprocess.call(self.test_command, shell=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE):
+            print "ignoring %s because this test failed: %s" % (self.name, self.test_command)
+            return False
 
-        source = os.path.join(self.BASE_DIR, self.source)
+        return True
+
+class Dotfile(Base):
+    def __init__(self, source, destination, *args, **kwargs):
+        super(Dotfile, self).__init__(*args, name=destination, **kwargs)
+        self.source = source
+        self.destination = destination
+
+    def install(self):
+        if not self.test():
+            return
+
+        source = os.path.join(BASE_DIR, self.source)
         destination = os.path.expanduser(self.destination)
 
         print "installing %s -> %s..." % (self.source, self.destination)
@@ -56,6 +68,30 @@ class Dotfile:
 
         os.symlink(source, destination)
 
+class Dotcommand(Base):
+    def __init__(self, command, *args, **kwargs):
+        super(Dotcommand, self).__init__(command, *args, **kwargs)
+        self.command = command
+
+    def execute(self):
+        if not self.test():
+            return
+
+        tmp_filename = '/tmp/dotfiles_install_command'
+        print "executing: %s" % self.command
+        f = file(tmp_filename, 'w')
+        f.write("#!/bin/bash -e\ncd '%s'\n" % BASE_DIR)
+        f.write(self.command)
+        f.close()
+        os.chmod(tmp_filename, stat.S_IRWXU)
+        if subprocess.call(tmp_filename, shell=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE):
+             print "something went wrong there"
+             sys.exit(-1)
+
+        os.remove(tmp_filename)
+
+
 dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('git/git_template', '~/.git_template'),
             Dotfile('git/gitconfig', '~/.gitconfig'),
@@ -70,7 +106,15 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
             Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
+
+            Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
            ]
+
+commands = []
 
 for dotfile in dotfiles:
     dotfile.install()
+
+for command in commands:
+    command.execute()
+
