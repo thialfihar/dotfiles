@@ -48,8 +48,8 @@ myWorkspaces    = ["shell", "web", "dev", "git", "db", "talk", "7", "8", "df"] -
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myNormalBorderColor  = "#586e75"
+myFocusedBorderColor = "#fdf6e3"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -257,13 +257,13 @@ myEventHook = mempty
 --
 myLogHook h = workspaceNamesPP xmobarPP
                                         { ppOutput = hPutStrLn h
-                                        , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
-                                        , ppHidden = xmobarColor "white" ""
-                                        , ppHiddenNoWindows = xmobarColor "darkgray" ""
-                                        , ppUrgent = xmobarColor "blue" "gray"
+                                        , ppCurrent = xmobarColor "#b58900" "" . wrap "[" "]"
+                                        , ppHidden = xmobarColor "#fdf6e3" ""
+                                        , ppHiddenNoWindows = xmobarColor "#93a1a1" ""
+                                        , ppUrgent = xmobarColor "#d33682" ""
                                         , ppSep = " | "
-                                        , ppLayout = xmobarColor "orange" "" . trim
-                                        , ppTitle = xmobarColor "green" "" . trim
+                                        , ppLayout = xmobarColor "#b58900" "" . trim
+                                        , ppTitle = xmobarColor "#fdf6e3" "" . trim
                                         } >>= dynamicLogWithPP
 -- >> takeTopFocus
 

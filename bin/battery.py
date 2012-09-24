@@ -2,6 +2,10 @@
 
 import sys
 
+RED = '#dc322f'
+YELLOW = '#b58900'
+GREEN = '#859900'
+
 def get_value(filename):
     return file(filename).read().strip()
 
@@ -20,11 +24,11 @@ ac_online = int(get_value('/sys/class/power_supply/ADP1/online'))
 percentage = 100.0 * remaining_capacity / max_capacity
 
 if percentage < 25:
-    color = 'red'
+    color = RED
 elif percentage < 80:
-    color = 'yellow'
+    color = YELLOW
 else:
-    color = 'green'
+    color = GREEN
 
 output = '<fc=%s>%.0f</fc>%%' % (color, percentage)
 is_charging = False
@@ -41,12 +45,12 @@ if eta_hours is not None:
     if is_charging:
         pass
     elif eta_hours == 0 and eta_minutes < 30:
-        color = 'red'
+        color = RED
     else:
-        color = 'orange'
+        color = YELLOW
     output += ' [<fc=%s>%02d:%02d</fc>]' % (color, eta_hours, eta_minutes)
 
 if ac_online:
-    output += ' (<fc=cyan>ac</fc>)'
+    output += ' (<fc=%s>ac</fc>)' % GREEN
 
 print output
