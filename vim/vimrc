@@ -81,6 +81,11 @@ set guioptions-=m
 " remove scrollbars
 set guioptions+=LlRrb
 set guioptions-=LlRrb
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=DejaVu\ Sans\ Mono\ 10
+  endif
+endif
 
 " FuzzyFinger mappings
 map FF :FufCoverageFile<CR>
