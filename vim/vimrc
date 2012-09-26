@@ -96,11 +96,19 @@ map FD :FufDir<CR>
 map CW :cw<CR>
 map CN :cn<CR>
 
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
 " prevent arrow key usage
 noremap <Up> <nop>
 noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
+
+map <A-j> :RopeGotoDefinition<CR>
+map <A-r> :RopeRename<CR>
 
 " ====== plugin settings
 let python_highlight_all=1
