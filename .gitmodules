@@ -34,3 +34,6 @@
 [submodule "modules/gnome-terminal-colors-solarized"]
 	path = modules/gnome-terminal-colors-solarized
 	url = git@github.com:sigurdga/gnome-terminal-colors-solarized
+[submodule "vim/vim/bundle/haskell-conceal"]
+	path = vim/vim/bundle/haskell-conceal
+	url = git@github.com:Twinside/vim-haskellConceal
