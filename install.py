@@ -108,6 +108,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
 
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
+            Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
            ]
 
 commands = []
