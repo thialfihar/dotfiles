@@ -106,6 +106,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
             Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
+            Dotfile('bin/start_cmus_in_tmux.sh', '~/bin/start_cmus_in_tmux.sh'),
 
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
             Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
