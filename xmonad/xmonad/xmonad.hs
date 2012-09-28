@@ -3,6 +3,7 @@ import XMonad.Actions.WorkspaceNames
 import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.LayoutHints
@@ -44,7 +45,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["shell", "web", "dev", "git", "db", "talk", "7", "8", "df"] -- ++ map show [9]
+myWorkspaces    = ["shell", "web", "dev", "git", "db", "im", "7", "8", "df"] -- ++ map show [9]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -225,6 +226,8 @@ myManageHook = composeAll
       className =? "Git-gui" --> viewShift "git",
       className =? "Gitg" --> viewShift "git",
       className =? "Git-cola" --> viewShift "git",
+      className =? "Pidgin" --> viewShift "im",
+      className =? "Skype" --> viewShift "im",
       resource  =? "desktop_window" --> doIgnore,
       resource  =? "kdesktop"       --> doIgnore ]
     where
@@ -290,7 +293,7 @@ myStartupHook = return ()
 --
 main = do
     xmproc <- spawnPipe "xmobar /home/thi/.xmobarrc"
-    xmonad $ defaults xmproc
+    xmonad $ withUrgencyHook NoUrgencyHook $ defaults xmproc
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
