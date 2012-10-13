@@ -103,6 +103,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('oh-my-zsh', '~/.oh-my-zsh'),
             Dotfile('oh-my-zsh/zshrc', '~/.zshrc'),
 
+            Dotfile('Xmodmap', '~/.Xmodmap', platform="linux"),
             Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
             Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
