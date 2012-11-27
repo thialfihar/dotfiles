@@ -1,8 +1,11 @@
 import XMonad
 import XMonad.Actions.WorkspaceNames
+import XMonad.Actions.GridSelect
 import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ICCCMFocus
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
@@ -269,6 +272,7 @@ myLogHook h = workspaceNamesPP xmobarPP
                                         , ppTitle = xmobarColor "#fdf6e3" "" . trim
                                         } >>= dynamicLogWithPP
 -- >> takeTopFocus
+              >> takeTopFocus
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -284,7 +288,7 @@ myLogHook h = workspaceNamesPP xmobarPP
 -- It will add initialization of EWMH support to your custom startup
 -- hook by combining it with ewmhDesktopsStartup.
 --
-myStartupHook = return ()
+myStartupHook = setWMName "LG3D"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
