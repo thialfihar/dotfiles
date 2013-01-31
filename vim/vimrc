@@ -101,6 +101,10 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
+nmap <C-V> "+gP
+imap <C-V> <ESC><C-V>i
+vmap <C-C> "+y
+
 " prevent arrow key usage
 noremap <Up> <nop>
 noremap <Down> <nop>
@@ -121,10 +125,13 @@ let g:fuf_maxMenuWidth=100
 
 " vim-latex
 let g:tex_flavor = "latex" " Set LaTeX as the default TeX type.
+
 " python-mode
 let g:pymode_lint_cwindow = 0
+
 " supertab
 let g:SuperTabDefaultCompletionType = 'context'
+
 " ====== appearance
 set t_Co=256
 if has('gui_running')
