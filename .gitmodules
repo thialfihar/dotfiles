@@ -37,9 +37,18 @@
 [submodule "vim/vim/bundle/haskell-conceal"]
 	path = vim/vim/bundle/haskell-conceal
 	url = git@github.com:Twinside/vim-haskellConceal
+[submodule "vim/vim/bundle/sqlutilities"]
+	path = vim/vim/bundle/sqlutilities
+	url = git@github.com:vim-scripts/SQLUtilities
+[submodule "vim/vim/bundle/align"]
+	path = vim/vim/bundle/align
+	url = git@github.com:vim-scripts/Align
 [submodule "vim/vim/bundle/python-mode"]
 	path = vim/vim/bundle/python-mode
 	url = github.com:klen/python-mode
 [submodule "vim/vim/bundle/pyflakes-pathogen"]
 	path = vim/vim/bundle/pyflakes-pathogen
 	url = github.com:mitechie/pyflakes-pathogen
+[submodule "vim/vim/bundle/supertab"]
+	path = vim/vim/bundle/supertab
+	url = github.com:ervandew/supertab

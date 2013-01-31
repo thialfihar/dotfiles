@@ -118,6 +118,8 @@ let g:fuf_maxMenuWidth=100
 
 " python-mode
 let g:pymode_lint_cwindow = 0
+" supertab
+let g:SuperTabDefaultCompletionType = 'context'
 " ====== appearance
 set t_Co=256
 if has('gui_running')
