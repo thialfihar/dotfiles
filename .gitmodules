@@ -52,6 +52,9 @@
 [submodule "vim/vim/bundle/supertab"]
 	path = vim/vim/bundle/supertab
 	url = github.com:ervandew/supertab
+[submodule "vim/vim/bundle/javacomplete"]
+	path = vim/vim/bundle/javacomplete
+	url = github.com:vim-scripts/javacomplete
 [submodule "vim/vim/bundle/vim-latex"]
 	path = vim/vim/bundle/vim-latex
 	url = github.com:jcf/vim-latex
