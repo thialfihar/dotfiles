@@ -25,3 +25,5 @@
     name = Thialfihar
     email = thi@thialfiha"r.or"g
 
+[push]
+	default = simple
