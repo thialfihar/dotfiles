@@ -34,8 +34,8 @@ set nowrap
 set backspace=indent,eol,start
 
 " ====== searching
-" search as we type
-set incsearch
+" don't search as we type
+set noincsearch
 " highlight searches
 set hlsearch
 " ignore case when searching
