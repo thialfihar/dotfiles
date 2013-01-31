@@ -4,16 +4,15 @@ Config {
     fgColor = "#839496",
     position = Top,
     lowerOnStart = False,
-    commands = [ Run Weather "EDDI" ["-t","<station>: <tempC>°C","-L","18","-H","25","--normal","green","--high","#dc322f","--low","lightblue"] 36000,
-                 Run Com "battery.py" [] "" 30,
+    commands = [ Run Com "battery.py" [] "" 30,
                  Run Cpu ["-L","3","-H","50","--normal","#859900","--high","#dc322f"] 10,
                  Run Memory ["-t","Mem: <usedratio>%"] 10,
-                 Run Swap [] 10,
                  Run Date "%a %b %_d %Y %H:%M:%S" "date" 10,
+                 Run Network "wlan0" ["-t", "<dev>: <rx> / <tx> KB/s"] 10,
                  Run StdinReader
                 ],
     sepChar = "%",
     alignSep = "}{",
-    template = "%StdinReader% }{ %battery.py% | %cpu% | %memory% | %swap%     %EDDI% | <fc=#b58900>%date%</fc>"
+    template = "%StdinReader% }{ %cpu% | %memory% | %wlan0% | %battery.py% | <fc=#b58900>%date%</fc>"
 }
 
