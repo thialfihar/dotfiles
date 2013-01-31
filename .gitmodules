@@ -37,3 +37,9 @@
 [submodule "vim/vim/bundle/haskell-conceal"]
 	path = vim/vim/bundle/haskell-conceal
 	url = git@github.com:Twinside/vim-haskellConceal
+[submodule "vim/vim/bundle/python-mode"]
+	path = vim/vim/bundle/python-mode
+	url = github.com:klen/python-mode
+[submodule "vim/vim/bundle/pyflakes-pathogen"]
+	path = vim/vim/bundle/pyflakes-pathogen
+	url = github.com:mitechie/pyflakes-pathogen

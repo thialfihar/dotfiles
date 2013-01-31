@@ -110,14 +110,14 @@ noremap <Right> <nop>
 map <A-j> :RopeGotoDefinition<CR>
 map <A-r> :RopeRename<CR>
 
-" ====== plugin settings
-let python_highlight_all=1
 
 " FuzzyFinder settings
 let g:fuf_file_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 let g:fuf_coveragefile_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 let g:fuf_maxMenuWidth=100
 
+" python-mode
+let g:pymode_lint_cwindow = 0
 " ====== appearance
 set t_Co=256
 if has('gui_running')
