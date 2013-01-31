@@ -115,8 +115,8 @@ map <F3> :!xelatex %<CR>
 map <F4> :!pdflatex %<CR>
 
 " FuzzyFinder settings
-let g:fuf_file_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
-let g:fuf_coveragefile_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_file_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po]|pdf|aux|log)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_coveragefile_exclude='\v\~$|\.(o|exe|dll|bak|orig|pyc|sw[po]|pdf|aux|log)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 let g:fuf_maxMenuWidth=100
 
 " vim-latex
