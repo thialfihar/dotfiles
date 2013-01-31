@@ -167,5 +167,43 @@ filetype plugin on
 filetype indent on
 
 " status line
-set statusline=%{fugitive#statusline()}\ %=\ col:%c%V\ line:%l,%L\ %P
+
+"statusline setup
+set statusline =%#identifier#
+set statusline+=%t "tail of the filename
+set statusline+=%*
+
+"display a warning if fileformat isnt unix
+set statusline+=%#identifier#
+set statusline+=%{&ff!='unix'?'\ ['.&ff.']':''}
+set statusline+=%*
+
+"display a warning if file encoding isnt utf-8
+set statusline+=%#warningmsg#
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'\ ['.&fenc.']':''}
+set statusline+=%*
+
+set statusline+=\ %y "filetype
+
+" read only flag
+set statusline+=%#error#
+set statusline+=%r
+set statusline+=%*
+
+" modified flags
+set statusline+=%#identifier#
+set statusline+=%m
+set statusline+=%*
+
+set statusline+=\ %{fugitive#statusline()}
+
+"display a warning if &paste is set
+set statusline+=%#error#
+set statusline+=%{&paste?'[paste]':''}
+set statusline+=%*
+
+set statusline+=%=%c, "cursor column
+set statusline+=%l/%L "cursor line/total lines
+set statusline+=\ %P "percent through file
+set laststatus=2
 
