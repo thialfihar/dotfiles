@@ -13,6 +13,7 @@ import XMonad.Layout.LayoutHints
 import XMonad.Util.Run(spawnPipe)
 import Control.Monad(liftM2)
 import Data.Monoid
+import Data.List
 import System.Exit
 import System.IO
 
@@ -54,6 +55,8 @@ myWorkspaces    = ["shell", "web", "dev", "git", "db", "im", "7", "8", "df"] -- 
 --
 myNormalBorderColor  = "#586e75"
 myFocusedBorderColor = "#fdf6e3"
+
+gsconfig1 = defaultGSConfig {gs_cellheight = 30, gs_cellwidth = 100}
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -131,6 +134,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Lock screen
     , ((modm .|. shiftMask, xK_l    ), spawn "xscreensaver-command -lock")
+
+    , ((modm              , xK_f), focusUrgent)
+
+    , ((modm              , xK_g), goToSelected gsconfig1)
+    -- , ((modm              , xK_h), spawnSelected defaultGSConfig ["terminal", "gvim", "firefox"])
     ]
     ++
 
@@ -231,10 +239,14 @@ myManageHook = composeAll
       className =? "Git-cola" --> viewShift "git",
       className =? "Pidgin" --> viewShift "im",
       className =? "Skype" --> viewShift "im",
+      className =? "Pgadmin3" --> viewShift "db",
+      className =? "Gimp-2.8"  --> doShift "*",
+      (className =? "Gimp-2.8" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat,
       resource  =? "desktop_window" --> doIgnore,
       resource  =? "kdesktop"       --> doIgnore ]
     where
         viewShift = doF . liftM2 (.) W.greedyView W.shift
+        role = stringProperty "WM_WINDOW_ROLE"
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -271,7 +283,6 @@ myLogHook h = workspaceNamesPP xmobarPP
                                         , ppLayout = xmobarColor "#b58900" "" . trim
                                         , ppTitle = xmobarColor "#fdf6e3" "" . trim
                                         } >>= dynamicLogWithPP
--- >> takeTopFocus
               >> takeTopFocus
 
 ------------------------------------------------------------------------
