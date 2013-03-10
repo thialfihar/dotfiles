@@ -128,6 +128,8 @@ let g:tex_flavor = "latex" " Set LaTeX as the default TeX type.
 
 " python-mode
 let g:pymode_lint_cwindow = 0
+" Disable pylint checking every save
+let g:pymode_lint_write = 0
 
 " supertab
 let g:SuperTabDefaultCompletionType = 'context'
@@ -168,7 +170,9 @@ autocmd FileType c,cpp,cs,java setlocal ai et sta sw=4 sts=4 cin
 autocmd FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
 autocmd FileType gitcommit setlocal spell
 autocmd FileType python set complete+=k~/.vim/syntax/python.vim
-autocmd FileType text,txt setlocal tw=78 linebreak nolist
+autocmd FileType text,txt setlocal linebreak nolist
+autocmd FileType htm,html,htmldjango setlocal ai et sta sw=2 sts=2 cin
+autocmd FileType css setlocal ai et sta sw=2 sts=2 cin
 autocmd FileType vim setlocal ai et sta sw=2 sts=2
 autocmd FileType sh,csh,tcsh,zsh setlocal ai et sta sw=4 sts=4
 autocmd FileType javascript setlocal ai et sta sw=2 sts=2 ts=2 cin isk+=$
