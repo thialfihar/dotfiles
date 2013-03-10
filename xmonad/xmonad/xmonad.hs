@@ -133,7 +133,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_q     ), spawn "xmonad --recompile && xmonad --restart")
 
     -- Lock screen
-    , ((modm .|. shiftMask, xK_l    ), spawn "xscreensaver-command -lock")
+    , ((modm .|. shiftMask, xK_s    ), spawn "xscreensaver-command -lock")
+    --
+    -- suspend
+    , ((modm              , xK_x    ), spawn "suspend_laptop")
 
     , ((modm              , xK_f), focusUrgent)
 
