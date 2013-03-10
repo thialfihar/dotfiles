@@ -1,0 +1,4 @@
+#!/bin/bash
+
+GTK2_RC_FILES="" /usr/bin/$(basename $0) $@ &
+
