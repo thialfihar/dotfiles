@@ -111,9 +111,6 @@ noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
 
-map <A-j> :RopeGotoDefinition<CR>
-map <A-r> :RopeRename<CR>
-
 " tex compiling
 map <F3> :!xelatex %<CR>
 map <F4> :!pdflatex %<CR>

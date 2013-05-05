@@ -22,9 +22,6 @@
 [submodule "vim/vim/bundle/l9"]
 	path = vim/vim/bundle/l9
 	url = git@github.com:vim-scripts/L9
-[submodule "vim/vim/bundle/ropevim"]
-	path = vim/vim/bundle/ropevim
-	url = git@github.com:peplin/ropevim
 [submodule "vim/vim/bundle/ack"]
 	path = vim/vim/bundle/ack
 	url = git@github.com:mileszs/ack.vim
@@ -43,9 +40,6 @@
 [submodule "vim/vim/bundle/align"]
 	path = vim/vim/bundle/align
 	url = git@github.com:vim-scripts/Align
-[submodule "vim/vim/bundle/python-mode"]
-	path = vim/vim/bundle/python-mode
-	url = github.com:klen/python-mode
 [submodule "vim/vim/bundle/pyflakes-pathogen"]
 	path = vim/vim/bundle/pyflakes-pathogen
 	url = github.com:mitechie/pyflakes-pathogen
