@@ -7,9 +7,12 @@ import XMonad.Hooks.ICCCMFocus
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
-import XMonad.Layout.NoBorders
+import XMonad.Layout.DragPane
+import XMonad.Layout.LayoutCombinators hiding ((|||))
+import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.LayoutHints
+import XMonad.Layout.Tabbed
 import XMonad.Util.Run(spawnPipe)
 import Control.Monad(liftM2)
 import Data.Monoid
@@ -200,7 +203,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = smartBorders $
+myLayout = avoidStruts . smartBorders $
            onWorkspace "df" Full $
            onWorkspace "dev" dev $
            tiled ||| Mirror tiled ||| Full
@@ -246,8 +249,8 @@ myManageHook = composeAll
       className =? "Pidgin" --> viewShift "im",
       className =? "Skype" --> viewShift "im",
       className =? "Pgadmin3" --> viewShift "db",
-      className =? "Gimp-2.8"  --> doShift "*",
-      (className =? "Gimp-2.8" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat,
+     -- className =? "Gimp-2.8"  --> doShift "*",
+      -- (className =? "Gimp-2.8" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat,
       resource  =? "desktop_window" --> doIgnore,
       resource  =? "kdesktop"       --> doIgnore ]
     where

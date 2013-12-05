@@ -17,6 +17,7 @@
 [core]
 	excludesfile = ~/.cvsignore
 	pager = less -S
+	autocrlf = input
 
 [init]
 	templatedir = ~/.git_template
