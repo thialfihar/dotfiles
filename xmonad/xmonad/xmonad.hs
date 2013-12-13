@@ -13,6 +13,8 @@ import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.Tabbed
+import XMonad.Layout.IM
+import XMonad.Layout.Reflect
 import XMonad.Util.Run(spawnPipe)
 import Control.Monad(liftM2)
 import Data.Monoid
@@ -52,7 +54,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["shell", "web", "dev", "git", "db", "im", "7", "8", "df"] -- ++ map show [9]
+myWorkspaces    = ["shell", "web", "dev", "git", "db", "im", "gimp", "8", "df"] -- ++ map show [9]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -141,6 +143,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- suspend
     , ((modm              , xK_x    ), spawn "suspend_laptop")
 
+    -- restart gnome-panel
+    , ((modm              , xK_r    ), spawn "/home/thi/bin/restart_gnome-panel")
+
     , ((modm              , xK_f), focusUrgent)
 
     , ((modm              , xK_g), goToSelected gsconfig1)
@@ -156,16 +161,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-    ++
-
-    --
-    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-    -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    --
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -206,6 +201,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 myLayout = avoidStruts . smartBorders $
            onWorkspace "df" Full $
            onWorkspace "dev" dev $
+           onWorkspace "gimp" gimp $
            tiled ||| Mirror tiled ||| Full
   where
     -- default tiling algorithm partitions the screen into two panes
@@ -221,6 +217,10 @@ myLayout = avoidStruts . smartBorders $
 
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
+
+    gimp = withIM (0.11) (Role "gimp-toolbox") $
+           reflectHoriz $
+           withIM (0.15) (Role "gimp-dock") Full
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -238,8 +238,7 @@ myLayout = avoidStruts . smartBorders $
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ manageHook gnomeConfig,
-      className =? "gnome-panel" --> doIgnore,
+    [ className =? "gnome-panel" --> doIgnore,
       className =? "Dwarf_Fortress" --> viewShift "df",
       className =? "DwarfTherapist" --> viewShift "df",
       className =? "Gitk" --> viewShift "git",
@@ -249,12 +248,14 @@ myManageHook = composeAll
       className =? "Pidgin" --> viewShift "im",
       className =? "Skype" --> viewShift "im",
       className =? "Pgadmin3" --> viewShift "db",
-     -- className =? "Gimp-2.8"  --> doShift "*",
-      -- (className =? "Gimp-2.8" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat,
+      (role =? "gimp-image-window" <||> fmap ("toolbox" `isSuffixOf`) role <||> fmap("dock" `isSuffixOf`) role) --> unfloat,
       resource  =? "desktop_window" --> doIgnore,
-      resource  =? "kdesktop"       --> doIgnore ]
+      resource  =? "kdesktop"       --> doIgnore,
+      manageHook gnomeConfig
+    ]
     where
         viewShift = doF . liftM2 (.) W.greedyView W.shift
+        unfloat = ask >>= doF . W.sink
         role = stringProperty "WM_WINDOW_ROLE"
 
 ------------------------------------------------------------------------
@@ -308,7 +309,9 @@ myLogHook h = workspaceNamesPP xmobarPP
 -- It will add initialization of EWMH support to your custom startup
 -- hook by combining it with ewmhDesktopsStartup.
 --
-myStartupHook = setWMName "LG3D"
+myStartupHook = do
+    setWMName "LG3D"
+    spawn "/home/thi/restart_gnome-panel"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -316,7 +319,7 @@ myStartupHook = setWMName "LG3D"
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    xmproc <- spawnPipe "xmobar /home/thi/.xmobarrc"
+    xmproc <- spawnPipe "/home/thi/bin/restart_xmobar"
     xmonad $ withUrgencyHook NoUrgencyHook $ defaults xmproc
 
 -- A structure containing your configuration settings, overriding
