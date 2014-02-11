@@ -218,9 +218,8 @@ myLayout = avoidStruts . smartBorders $
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
 
-    gimp = withIM (0.11) (Role "gimp-toolbox") $
-           reflectHoriz $
-           withIM (0.15) (Role "gimp-dock") Full
+    gimp = (Tall nmaster delta gimp_ratio) ||| Full
+    gimp_ratio = 6/7
 
 ------------------------------------------------------------------------
 -- Window rules:
