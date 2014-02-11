@@ -1,18 +1,16 @@
 Config {
-    font = "xft:Terminus:size=8:antialias=false",
+    font = "xft:DejaVu Sans Mono:size=12:antialias=true",
     bgColor = "#002b36",
     fgColor = "#839496",
-    position = Top,
+    position = Static { xpos = 0, ypos = -9, width = 3200, height = 41 },
     lowerOnStart = False,
-    commands = [ Run Com "battery.py" [] "" 30,
+    commands = [ Run Com "battery.py" [] "" 50,
                  Run Cpu ["-L","3","-H","50","--normal","#859900","--high","#dc322f"] 10,
-                 Run Memory ["-t","Mem: <usedratio>%"] 10,
-                 Run Date "%a %b %_d %Y %H:%M:%S" "date" 10,
-                 Run Network "wlan0" ["-t", "<dev>: <rx> / <tx> KB/s"] 10,
+                 Run Date "<fc=#b58900>%a %b %d %Y</fc> <fc=#839496>%H:%M:%S</fc>" "date" 10,
                  Run StdinReader
                 ],
     sepChar = "%",
     alignSep = "}{",
-    template = "%StdinReader% }{ %cpu% | %memory% | %wlan0% | %battery.py% | <fc=#b58900>%date%</fc>"
+    template = "%StdinReader% }{ %cpu% | %battery.py% | %date%"
 }
 
