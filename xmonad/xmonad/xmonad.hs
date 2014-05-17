@@ -143,8 +143,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- suspend
     , ((modm              , xK_x    ), spawn "suspend_laptop")
 
-    -- restart gnome-panel
-    , ((modm              , xK_r    ), spawn "/home/thi/bin/restart_gnome-panel")
+    -- toggle gnome-panel
+    , ((modm              , xK_r    ), spawn "/home/thi/bin/toggle_gnome-panel")
 
     , ((modm              , xK_f), focusUrgent)
 
