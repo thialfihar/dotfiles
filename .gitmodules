@@ -1,57 +1,57 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
-	url = git@github.com:thialfihar/oh-my-zsh
+	url = https://github.com/thialfihar/oh-my-zsh
 [submodule "vim/vim/bundle/pathogen"]
 	path = vim/vim/bundle/pathogen
-	url = git@github.com:tpope/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen
 [submodule "vim/vim/bundle/git"]
 	path = vim/vim/bundle/git
-	url = git@github.com:tpope/vim-git
+	url = https://github.com/tpope/vim-git
 [submodule "vim/vim/bundle/fugitive"]
 	path = vim/vim/bundle/fugitive
-	url = git@github.com:tpope/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
 [submodule "vim/vim/bundle/colors-solarized"]
 	path = vim/vim/bundle/colors-solarized
-	url = git@github.com:skwp/vim-colors-solarized
+	url = https://github.com/skwp/vim-colors-solarized
 [submodule "vim/vim/bundle/indexedsearch"]
 	path = vim/vim/bundle/indexedsearch
-	url = git@github.com:vim-scripts/IndexedSearch
+	url = https://github.com/vim-scripts/IndexedSearch
 [submodule "vim/vim/bundle/fuzzyfinder"]
 	path = vim/vim/bundle/fuzzyfinder
-	url = git@github.com:vim-scripts/FuzzyFinder
+	url = https://github.com/vim-scripts/FuzzyFinder
 [submodule "vim/vim/bundle/l9"]
 	path = vim/vim/bundle/l9
-	url = git@github.com:vim-scripts/L9
+	url = https://github.com/vim-scripts/L9
 [submodule "vim/vim/bundle/ack"]
 	path = vim/vim/bundle/ack
-	url = git@github.com:mileszs/ack.vim
+	url = https://github.com/mileszs/ack.vim
 [submodule "modules/ls-colors-solarized"]
 	path = modules/ls-colors-solarized
-	url = git@github.com:sigurdga/ls-colors-solarized
+	url = https://github.com/sigurdga/ls-colors-solarized
 [submodule "modules/gnome-terminal-colors-solarized"]
 	path = modules/gnome-terminal-colors-solarized
-	url = git@github.com:sigurdga/gnome-terminal-colors-solarized
+	url = https://github.com/sigurdga/gnome-terminal-colors-solarized
 [submodule "vim/vim/bundle/haskell-conceal"]
 	path = vim/vim/bundle/haskell-conceal
-	url = git@github.com:Twinside/vim-haskellConceal
+	url = https://github.com/Twinside/vim-haskellConceal
 [submodule "vim/vim/bundle/sqlutilities"]
 	path = vim/vim/bundle/sqlutilities
-	url = git@github.com:vim-scripts/SQLUtilities
+	url = https://github.com/vim-scripts/SQLUtilities
 [submodule "vim/vim/bundle/align"]
 	path = vim/vim/bundle/align
-	url = git@github.com:vim-scripts/Align
+	url = https://github.com/vim-scripts/Align
 [submodule "vim/vim/bundle/pyflakes-pathogen"]
 	path = vim/vim/bundle/pyflakes-pathogen
-	url = github.com:mitechie/pyflakes-pathogen
+	url = https://github.com/mitechie/pyflakes-pathogen
 [submodule "vim/vim/bundle/supertab"]
 	path = vim/vim/bundle/supertab
-	url = github.com:ervandew/supertab
+	url = https://github.com/ervandew/supertab
 [submodule "vim/vim/bundle/javacomplete"]
 	path = vim/vim/bundle/javacomplete
-	url = github.com:vim-scripts/javacomplete
+	url = https://github.com/vim-scripts/javacomplete
 [submodule "vim/vim/bundle/vim-latex"]
 	path = vim/vim/bundle/vim-latex
-	url = github.com:jcf/vim-latex
+	url = https://github.com/jcf/vim-latex
 [submodule "vim/vim/bundle/coffee-script"]
 	path = vim/vim/bundle/coffee-script
-	url = github.com:kchmck/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script
