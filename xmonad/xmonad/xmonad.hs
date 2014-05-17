@@ -201,7 +201,6 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 myLayout = avoidStruts . smartBorders $
            onWorkspace "df" Full $
            onWorkspace "dev" dev $
-           onWorkspace "gimp" gimp $
            tiled ||| Mirror tiled ||| Full
   where
     -- default tiling algorithm partitions the screen into two panes
@@ -217,9 +216,6 @@ myLayout = avoidStruts . smartBorders $
 
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
-
-    gimp = (Tall nmaster delta gimp_ratio) ||| Full
-    gimp_ratio = 6/7
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -247,7 +243,7 @@ myManageHook = composeAll
       className =? "Pidgin" --> viewShift "im",
       className =? "Skype" --> viewShift "im",
       className =? "Pgadmin3" --> viewShift "db",
-      (role =? "gimp-image-window" <||> fmap ("toolbox" `isSuffixOf`) role <||> fmap("dock" `isSuffixOf`) role) --> unfloat,
+      (className =? "gimp" <||> className =? "Gimp") --> viewShift "gimp",
       resource  =? "desktop_window" --> doIgnore,
       resource  =? "kdesktop"       --> doIgnore,
       manageHook gnomeConfig
