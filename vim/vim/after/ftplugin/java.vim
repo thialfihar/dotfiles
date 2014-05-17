@@ -43,4 +43,4 @@ if found:
 endpython
 endfunction
 
-call FindManifestFile()
+"call FindManifestFile()
