@@ -150,6 +150,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     , ((modm              , xK_g), goToSelected gsconfig1)
     -- , ((modm              , xK_h), spawnSelected defaultGSConfig ["terminal", "gvim", "firefox"])
+
+    , ((modm              , xK_i), spawn "xcalib -a -i")
+    , ((modm              , xK_n), spawn "xcalib -a -blue 0.1 1 1 -green 0.1 1 1")
+    , ((modm              , xK_c), spawn "xcalib -c")
     ]
     ++
 
