@@ -48,7 +48,7 @@ bindsym XF86KbdBrightnessDown exec "set_keyboard_brightness down"
 bindsym XF86KbdBrightnessUp exec "set_keyboard_brightness up"
 
 # screensaver
-bindsym $mod+y exec --no-startup-id  "i3lock -d -c 000000"
+bindsym $mod+y exec --no-startup-id  "i3lock -c 000000"
 
 # colours
 bindsym $mod+c exec --no-startup-id "xcalib -c"
@@ -168,11 +168,6 @@ new_window 1pixel
 
 exec_always --no-startup-id "killall nm-applet; nm-applet"
 
-# $i3-status
-set color_bad "#DC322F"
-set color_degraded "#b58900"
-set color_good "#859900"
-
 # $i3-theme-window
 # solarized accents
 set $yellow #b58900
@@ -242,7 +237,7 @@ bar {
     #mode hide
     mode dock
     strip_workspace_numbers yes
-    status_command echo '{"version":1}[[],'; xtitle -s -f '[{"full_text": "%s", "min_width": 10}],'
+    status_command ~/bin/myi3status.py
     colors {
         # status
         separator $blue
