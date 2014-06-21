@@ -1,0 +1,7 @@
+#!/bin/bash
+line=$(amixer -D pulse get Master | grep "Front Left.*%")
+if [[ "$line" == *off* ]]; then
+    echo "muted"
+else
+    echo $line |  sed -E 's/.*\[([0-9]+)%.*/\1/'
+fi

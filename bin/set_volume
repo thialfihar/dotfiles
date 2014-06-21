@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ $1 != "toggle" ]]; then
+    amixer -D pulse set Master unmute
+fi
+amixer -D pulse set Master $1
+value=$(get_volume | sed 's/[.].*$//')
+echo $value
+if [[ $value == "muted" ]]; then
+    icon="audio-volume-muted"
+    value=0
+elif [ $value -eq 0 ]; then
+    icon="audio-volume-off"
+elif [ $value -lt 33 ]; then
+    icon="audio-volume-low"
+elif [ $value -lt 66 ]; then
+    icon="audio-volume-medium"
+else
+    icon="audio-volume-high"
+fi
+notify-send " " -i $icon -h int:value:$value -h string:synchronous:volume

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+xbacklight -inc $1
+value=$(xbacklight | sed 's/[.].*$//')
+if [ $value -lt 20 ]; then
+    icon="display-brightness-low"
+elif [ $value -lt 60 ]; then
+    icon="display-brightness-medium"
+elif [ $value -lt 90 ]; then
+    icon="display-brightness-high"
+else
+    icon="display-brightness-full"
+fi
+notify-send " " -i $icon -h int:value:$value -h string:synchronous:brightness

@@ -106,16 +106,18 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('Xmodmap', '~/.Xmodmap', platform="linux"),
             Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
             Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
+            Dotfile('i3/i3', '~/.i3', test="which i3"),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
-            Dotfile('bin/start_cmus_in_tmux.sh', '~/bin/start_cmus_in_tmux.sh'),
-            Dotfile('bin/suspend_laptop', '~/bin/suspend_laptop'),
-            Dotfile('bin/themeless', '~/bin/themeless'),
-            Dotfile('bin/firefox', '~/bin/firefox'),
-            Dotfile('bin/libreoffice', '~/bin/libreoffice'),
-
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
             Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
            ]
+
+scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
+    'libreoffice', 'set_volume', 'get_volume', 'set_brightness',
+    'set_keyboard_brightness']
+for script in scripts:
+    dotfiles.append(Dotfile('bin/' + script, '~/bin/' + script))
+
 
 commands = []
 

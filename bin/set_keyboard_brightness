@@ -1,0 +1,66 @@
+#!/bin/bash
+
+get_backlight() {
+    dbus-send --type=method_call --print-reply=literal --system \
+        --dest='org.freedesktop.UPower' \
+        '/org/freedesktop/UPower/KbdBacklight' \
+        'org.freedesktop.UPower.KbdBacklight.GetBrightness' | awk '{print $2}'
+}
+
+get_max_backlight() {
+    dbus-send --type=method_call --print-reply=literal --system \
+        --dest='org.freedesktop.UPower' \
+        '/org/freedesktop/UPower/KbdBacklight' \
+        'org.freedesktop.UPower.KbdBacklight.GetMaxBrightness' | awk '{print $2}'
+}
+
+set_backlight() {
+    dbus-send --type=method_call --print-reply=literal --system \
+        --dest='org.freedesktop.UPower' \
+        '/org/freedesktop/UPower/KbdBacklight' \
+        'org.freedesktop.UPower.KbdBacklight.SetBrightness' \
+        "int32:$1}"
+}
+
+adjust_backlight() {
+    change="$1"
+    current=$(get_backlight)
+    max=$(get_max_backlight)
+    case $1 in
+    up)
+        if test "${current}" -lt "${max}" ; then
+            value=$((${current} + 1))
+            set_backlight "${value}"
+        fi
+        ;;
+
+    down)
+        if test "${current}" -gt 0 ; then
+            value=$((${current}  - 1))
+            set_backlight "${value}"
+        fi
+        ;;
+
+    *)
+        echo "bad argument: ${change}" >&2
+        return 1
+        ;;
+    esac
+
+    current=$(get_backlight)
+    value=$(echo "$current * 100 / $max" | bc)
+    if [ $value -eq 0 ]; then
+        icon="keyboard-brightness-off"
+    elif [ $value -lt 20 ]; then
+        icon="keyboard-brightness-low"
+    elif [ $value -lt 60 ]; then
+        icon="keyboard-brightness-medium"
+    elif [ $value -lt 90 ]; then
+        icon="keyboard-brightness-high"
+    else
+        icon="keyboard-brightness-full"
+    fi
+    notify-send " " -i $icon -h int:value:$value -h string:synchronous:keyboard_brightness
+}
+
+adjust_backlight "$1"
