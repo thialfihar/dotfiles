@@ -48,7 +48,7 @@ bindsym XF86KbdBrightnessDown exec "set_keyboard_brightness down"
 bindsym XF86KbdBrightnessUp exec "set_keyboard_brightness up"
 
 # screensaver
-bindsym $mod+y exec --no-startup-id  "gnome-screensaver-command --lock"
+bindsym $mod+y exec --no-startup-id  "i3lock -d -c 000000"
 
 # colours
 bindsym $mod+c exec --no-startup-id "xcalib -c"
