@@ -93,6 +93,8 @@ bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
+bindsym $mod+u exec --no-startup-id "i3_load_layout.py"
+
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
@@ -162,11 +164,16 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+bindsym $mod+Ctrl+Up resize grow width 10 px or 2 ppt; resize grow height 10 px or 2 ppt
+bindsym $mod+Ctrl+Down resize shrink width 10 px or 2 ppt; resize shrink height 10 px or 2 ppt
+
 focus_follows_mouse no
 new_window 1pixel
 #hide_edge_borders both
 
 exec_always --no-startup-id "killall nm-applet; nm-applet"
+exec_always --no-startup-id "killall ginn; ginn"
+exec_always --no-startup-id "feh --bg-fill /home/thi/Pictures/full_desktop_background.jpg"
 exec_always --no-startup-id "killall compton; compton -b"
 
 # $i3-theme-window
@@ -203,7 +210,7 @@ set $custom #1c5766
 #set $custom #e1cab3
 
 # $i3-background
-exec_always --no-startup-id xsetroot -solid '$baseA2'
+exec_always --no-startup-id xsetroot -solid '#101010'
 
 ###################
 # solarized (clean)
