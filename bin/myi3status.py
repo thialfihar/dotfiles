@@ -4,8 +4,8 @@ import os
 import select
 import subprocess
 import sys
-import time
 
+from datetime import datetime
 from battery import get_battery_status, I3BAR
 
 if __name__ == "__main__":
@@ -19,15 +19,20 @@ if __name__ == "__main__":
     print('{"version":1}[[]')
     old_status = None
     while True:
-        battery = get_battery_status(I3BAR)
-        status = ',[{"full_text":"%s", "separator_block_width": 21}%s]' % (title.replace('"', '\\"'), battery)
+        battery = get_battery_status(I3BAR).strip(',')
+        status = [
+            '{"full_text":"%s", "separator_block_width": 21}' % title.replace('"', '\\"'),
+            battery,
+            '{"full_text":"%s", "separator_block_width": 21}' % datetime.now().strftime('%H:%M:%S'),
+        ]
+        status = ',[' + ', '.join(status) + ']'
         if status != old_status:
             print(status)
             sys.stdout.flush()
             old_status = status
         #time.sleep(1.0)
 
-        readable, _, _ = select.select([xtitle.stdout], [], [xtitle.stdout], 5.0)
+        readable, _, _ = select.select([xtitle.stdout], [], [xtitle.stdout], 1.0)
         if readable:
             buffer += xtitle.stdout.read()
 

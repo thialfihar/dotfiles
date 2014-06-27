@@ -167,6 +167,7 @@ new_window 1pixel
 #hide_edge_borders both
 
 exec_always --no-startup-id "killall nm-applet; nm-applet"
+exec_always --no-startup-id "killall compton; compton -b"
 
 # $i3-theme-window
 # solarized accents
