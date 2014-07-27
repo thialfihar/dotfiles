@@ -27,6 +27,9 @@ adjust_backlight() {
     current=$(get_backlight)
     max=$(get_max_backlight)
     case $1 in
+    off)
+        set_backlight 0 $2
+        ;;
     up)
         if test "${current}" -lt "${max}" ; then
             value=$((${current} + 1))
@@ -47,20 +50,22 @@ adjust_backlight() {
         ;;
     esac
 
-    current=$(get_backlight)
-    value=$(echo "$current * 100 / $max" | bc)
-    if [ $value -eq 0 ]; then
-        icon="keyboard-brightness-off"
-    elif [ $value -lt 20 ]; then
-        icon="keyboard-brightness-low"
-    elif [ $value -lt 60 ]; then
-        icon="keyboard-brightness-medium"
-    elif [ $value -lt 90 ]; then
-        icon="keyboard-brightness-high"
-    else
-        icon="keyboard-brightness-full"
+    if [ "$2" != "quiet" ]; then
+        current=$(get_backlight)
+        value=$(echo "$current * 100 / $max" | bc)
+        if [ $value -eq 0 ]; then
+            icon="keyboard-brightness-off"
+        elif [ $value -lt 20 ]; then
+            icon="keyboard-brightness-low"
+        elif [ $value -lt 60 ]; then
+            icon="keyboard-brightness-medium"
+        elif [ $value -lt 90 ]; then
+            icon="keyboard-brightness-high"
+        else
+            icon="keyboard-brightness-full"
+        fi
+        notify-send " " -i $icon -h int:value:$value -h string:synchronous:keyboard_brightness
     fi
-    notify-send " " -i $icon -h int:value:$value -h string:synchronous:keyboard_brightness
 }
 
-adjust_backlight "$1"
+adjust_backlight "$1" "$2"
