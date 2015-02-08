@@ -46,26 +46,38 @@ class Dotfile(Base):
         if os.path.lexists(destination):
             if not os.path.islink(destination):
                 while True:
-                    delete = input("%s (%s) exists and isn't a symlink, delete? (Y/n) " %
-                                   (destination,
-                                    'directory' if os.path.isdir(destination) else 'file'))
-                    delete = delete.strip().lower()
-                    if delete == 'y' or not delete:
-                        delete = True
+                    replace = input("%s (%s) exists and isn't a symlink, replace it (backup will be created)? (Y/n) " %
+                                    (destination,
+                                     'directory' if os.path.isdir(destination) else 'file'))
+                    replace = replace.strip().lower()
+                    if replace == 'y' or not replace:
+                        replace = True
+                        backup = True
                         break
-                    elif delete == 'n':
-                        delete = False
+                    elif replace == 'n':
+                        replace = False
                         break
             else:
-                delete = True
+                replace = True
+                backup = False
 
-            if not delete:
+            if not replace:
                 return
 
-            if os.path.islink(destination) or os.path.isfile(destination):
-                os.remove(destination)
+            if backup:
+                i = 0
+                backup_name = destination.rstrip('/') + '.backup.%s' % i
+                while os.path.lexists(backup_name):
+                    i += 1
+                    backup_name = destination.rstrip('/') + '.backup.%s' % i
+
+                shutil.move(destination, backup_name)
+
             else:
-                shutil.rmtree(destination)
+                if os.path.islink(destination) or os.path.isfile(destination):
+                    os.remove(destination)
+                else:
+                    shutil.rmtree(destination)
 
         os.symlink(source, destination)
 
