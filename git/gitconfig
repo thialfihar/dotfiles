@@ -5,6 +5,7 @@
     lb = checkout -
 	ctags = !.git/hooks/ctags
     st = status -sb
+    mm = merge --no-ff
 
 [color]
     ui = auto
@@ -15,9 +16,10 @@
     grep = auto
 
 [core]
-	excludesfile = ~/.cvsignore
+	excludesfile = /home/thi/.gitignore_global
 	pager = less -S
 	autocrlf = input
+	editor = /usr/bin/vim
 
 [init]
 	templatedir = ~/.git_template
@@ -30,3 +32,7 @@
 	default = simple
 [grep]
 	extendRegexp = true
+[merge]
+	ff = false
+[pull]
+	ff = only
