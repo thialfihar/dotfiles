@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import platform
 import shutil
@@ -7,6 +7,7 @@ import subprocess
 import sys
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
 
 class Base(object):
     def __init__(self, name=None, platform=None, test=None):
@@ -17,15 +18,16 @@ class Base(object):
     def test(self):
         if self.platform:
             if self.platform != platform.system().lower():
-                print "ignoring %s because it requires %s..." % (self.name, self.platform)
+                print("ignoring %s because it requires %s..." % (self.name, self.platform))
 
         if self.test_command and \
            subprocess.call(self.test_command, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE):
-            print "ignoring %s because this test failed: %s" % (self.name, self.test_command)
+            print("ignoring %s because this test failed: %s" % (self.name, self.test_command))
             return False
 
         return True
+
 
 class Dotfile(Base):
     def __init__(self, source, destination, *args, **kwargs):
@@ -40,13 +42,13 @@ class Dotfile(Base):
         source = os.path.join(BASE_DIR, self.source)
         destination = os.path.expanduser(self.destination)
 
-        print "installing %s -> %s..." % (self.source, self.destination)
+        print("installing %s -> %s..." % (self.source, self.destination))
         if os.path.lexists(destination):
             if not os.path.islink(destination):
                 while True:
-                    delete = raw_input("%s (%s) exists and isn't a symlink, delete? (Y/n) " % \
-                                         (destination,
-                                          'directory' if os.path.isdir(destination) else 'file'))
+                    delete = input("%s (%s) exists and isn't a symlink, delete? (Y/n) " %
+                                   (destination,
+                                    'directory' if os.path.isdir(destination) else 'file'))
                     delete = delete.strip().lower()
                     if delete == 'y' or not delete:
                         delete = True
@@ -60,13 +62,13 @@ class Dotfile(Base):
             if not delete:
                 return
 
-            if os.path.islink(destination) or \
-               os.path.isfile(destination):
+            if os.path.islink(destination) or os.path.isfile(destination):
                 os.remove(destination)
             else:
                 shutil.rmtree(destination)
 
         os.symlink(source, destination)
+
 
 class Dotcommand(Base):
     def __init__(self, command, *args, **kwargs):
@@ -78,7 +80,7 @@ class Dotcommand(Base):
             return
 
         tmp_filename = '/tmp/dotfiles_install_command'
-        print "executing: %s" % self.command
+        print("executing: %s" % self.command)
         f = file(tmp_filename, 'w')
         f.write("#!/bin/bash -e\ncd '%s'\n" % BASE_DIR)
         f.write(self.command)
@@ -86,8 +88,8 @@ class Dotcommand(Base):
         os.chmod(tmp_filename, stat.S_IRWXU)
         if subprocess.call(tmp_filename, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE):
-             print "something went wrong there"
-             sys.exit(-1)
+            print("something went wrong there")
+            sys.exit(-1)
 
         os.remove(tmp_filename)
 
@@ -111,7 +113,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
             Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
             Dotfile('system/compton.conf', '~/.config/compton.conf'),
-           ]
+            ]
 
 scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
     'libreoffice', 'set_volume', 'get_volume', 'set_brightness',
@@ -127,4 +129,3 @@ for dotfile in dotfiles:
 
 for command in commands:
     command.execute()
-
