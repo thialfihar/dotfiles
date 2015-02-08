@@ -23,8 +23,10 @@ font pango:DejaVu Sand Mono 12
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+bindsym XF86PowerOff exec ~/.i3/i3-exit
+
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -39,8 +41,8 @@ bindsym $mod+o exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # Fn keys
-bindsym XF86MonBrightnessDown exec "set_brightness -5"
-bindsym XF86MonBrightnessUp exec "set_brightness 5"
+bindsym XF86MonBrightnessDown exec "set_brightness -10"
+bindsym XF86MonBrightnessUp exec "set_brightness 10"
 bindsym XF86AudioMute exec "set_volume toggle"
 bindsym XF86AudioLowerVolume exec "set_volume 5%-"
 bindsym XF86AudioRaiseVolume exec "set_volume 5%+"
@@ -49,6 +51,10 @@ bindsym XF86KbdBrightnessUp exec "set_keyboard_brightness up"
 
 # screensaver
 bindsym $mod+y exec --no-startup-id  "i3lock -c 000000"
+
+# screenshot
+bindsym Print exec "screenshot.sh root"
+bindsym $mod+Print exec "screenshot.sh active"
 
 # colours
 bindsym $mod+c exec --no-startup-id "xcalib -c"
@@ -107,6 +113,17 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+workspace "1:shell" output eDP1
+workspace "2:web" output eDP1
+workspace "3:dev" output eDP1
+workspace 4 output eDP1
+workspace 5 output eDP1
+workspace 6 output eDP1
+workspace 7 output eDP1
+workspace 8 output eDP1
+workspace 9 output eDP1
+workspace "10:ext" output HDMI1
+
 # switch to workspace
 bindsym $mod+1 workspace 1:shell
 bindsym $mod+2 workspace 2:web
@@ -117,7 +134,7 @@ bindsym $mod+6 workspace 6:irc
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+0 workspace 10:ext
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1:shell
@@ -129,7 +146,7 @@ bindsym $mod+Shift+6 move container to workspace 6:irc
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+0 move container to workspace 10:ext
 
 # reload the configuration file
 #bindsym $mod+Shift+c reload
@@ -153,9 +170,9 @@ mode "resize" {
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -164,17 +181,18 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bindsym $mod+Ctrl+Up resize grow width 10 px or 2 ppt; resize grow height 10 px or 2 ppt
-bindsym $mod+Ctrl+Down resize shrink width 10 px or 2 ppt; resize shrink height 10 px or 2 ppt
+bindsym $mod+Ctrl+Up resize grow width 10 px or 5 ppt; resize grow height 10 px or 5 ppt
+bindsym $mod+Ctrl+Down resize shrink width 10 px or 5 ppt; resize shrink height 10 px or 5 ppt
 
 focus_follows_mouse no
 new_window 1pixel
+new_float 1pixel
 #hide_edge_borders both
 
+exec_always --no-startup-id "/home/thi/.screenlayout/typical_external.sh; feh --bg-fill /home/thi/Pictures/full_desktop_background.png"
 exec_always --no-startup-id "killall nm-applet; nm-applet"
 exec_always --no-startup-id "killall ginn; ginn"
-exec_always --no-startup-id "feh --bg-fill /home/thi/Pictures/full_desktop_background.jpg"
-exec_always --no-startup-id "killall compton; compton -b"
+#exec_always --no-startup-id "killall compton; compton -b"
 exec_always --no-startup-id "set_keyboard_brightness off quiet"
 
 # $i3-theme-window
@@ -211,7 +229,7 @@ set $custom #1c5766
 #set $custom #e1cab3
 
 # $i3-background
-exec_always --no-startup-id xsetroot -solid '#101010'
+#exec_always --no-startup-id xsetroot -solid '#101010'
 
 ###################
 # solarized (clean)
@@ -241,6 +259,7 @@ client.urgent $baseB0 $yellow $baseB3 $orange
 #client.focused_inactive $baseB0 $custom $baseB2 $violet
 
 bar {
+    output eDP1
     #status_command i3status
     position top
     #mode hide
