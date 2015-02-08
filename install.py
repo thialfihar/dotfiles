@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import glob
 import os
 import platform
 import shutil
@@ -129,6 +130,12 @@ scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
            'set_keyboard_brightness', 'myi3status.py', 'nautilus']
 for script in scripts:
     dotfiles.append(Dotfile('bin/' + script, '~/bin/' + script))
+
+for full_path in glob.glob('sublimetext/packages/user/*'):
+    filename = os.path.basename(full_path)
+    dotfiles.append(Dotfile(full_path, '~/.config/sublime-text-3/Packages/User/' + filename))
+
+dotfiles.append(Dotfile('sublimetext/packages/Solarized', '~/.config/sublime-text-3/Packages/Solarized'))
 
 commands = []
 

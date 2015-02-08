@@ -1,0 +1,4 @@
+{
+    "shell_cmd": "make",
+    "working_dir": "$project_path",
+}
