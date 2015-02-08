@@ -46,9 +46,8 @@ class Dotfile(Base):
         if os.path.lexists(destination):
             if not os.path.islink(destination):
                 while True:
-                    replace = input("%s (%s) exists and isn't a symlink, replace it (backup will be created)? (Y/n) " %
-                                    (destination,
-                                     'directory' if os.path.isdir(destination) else 'file'))
+                    replace = input("%s (%s) exists and isn't a symlink, backup and replace it? (Y/n) " %
+                                    (destination, 'directory' if os.path.isdir(destination) else 'file'))
                     replace = replace.strip().lower()
                     if replace == 'y' or not replace:
                         replace = True
