@@ -1,27 +1,40 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = github.com:thialfihar/oh-my-zsh
+	branch = master
 [submodule "vim/vim/bundle/pathogen"]
 	path = vim/vim/bundle/pathogen
 	url = https://github.com/tpope/vim-pathogen
+	branch = master
 [submodule "vim/vim/bundle/git"]
 	path = vim/vim/bundle/git
 	url = https://github.com/tpope/vim-git
+	branch = master
 [submodule "vim/vim/bundle/fugitive"]
 	path = vim/vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive
+	branch = master
 [submodule "vim/vim/bundle/colors-solarized"]
 	path = vim/vim/bundle/colors-solarized
 	url = https://github.com/skwp/vim-colors-solarized
+	branch = master
 [submodule "modules/ls-colors-solarized"]
 	path = modules/ls-colors-solarized
 	url = https://github.com/sigurdga/ls-colors-solarized
+	branch = master
 [submodule "modules/gnome-terminal-colors-solarized"]
 	path = modules/gnome-terminal-colors-solarized
 	url = https://github.com/sigurdga/gnome-terminal-colors-solarized
+	branch = master
 [submodule "vim/vim/bundle/supertab"]
 	path = vim/vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
+	branch = master
 [submodule "vim/vim/bundle/vim-latex"]
 	path = vim/vim/bundle/vim-latex
 	url = https://github.com/jcf/vim-latex
+	branch = master
+[submodule "sublimetext/packages/Solarized"]
+	path = sublimetext/packages/Solarized
+	url = github.com:thialfihar/Solarized
+	branch = master
