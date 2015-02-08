@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import fcntl
 import os
+import re
 import select
 import subprocess
 import sys
@@ -34,7 +35,9 @@ if __name__ == "__main__":
 
         readable, _, _ = select.select([xtitle.stdout], [], [xtitle.stdout], 1.0)
         if readable:
-            buffer += xtitle.stdout.read()
+            new = xtitle.stdout.read()
+            new = re.sub(r'[\\]([^\\])', r'\\\\\1', new.decode('utf-8'))
+            buffer += new.encode('utf-8')
 
             s = buffer.decode("utf-8")
             while '\n' in s:
