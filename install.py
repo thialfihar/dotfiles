@@ -131,7 +131,6 @@ scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
 for script in scripts:
     dotfiles.append(Dotfile('bin/' + script, '~/bin/' + script))
 
-
 commands = []
 
 for dotfile in dotfiles:
