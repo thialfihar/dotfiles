@@ -106,8 +106,6 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('oh-my-zsh/zshrc', '~/.zshrc'),
 
             Dotfile('Xmodmap', '~/.Xmodmap', platform="linux"),
-            Dotfile('xmonad/xmonad', '~/.xmonad', test="which xmonad"),
-            Dotfile('xmonad/xmobarrc', '~/.xmobarrc', test="which xmobar"),
             Dotfile('i3/i3', '~/.i3', test="which i3"),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),

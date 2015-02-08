@@ -6,10 +6,9 @@ h2. Dependencies
 * vim
 * git
 * gitk
-* python
-Optional:
-* xmonad
-* xmobar
+* python2
+* python3
+* i3
 
 h2. Setup
 
