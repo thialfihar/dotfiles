@@ -13,45 +13,15 @@
 [submodule "vim/vim/bundle/colors-solarized"]
 	path = vim/vim/bundle/colors-solarized
 	url = https://github.com/skwp/vim-colors-solarized
-[submodule "vim/vim/bundle/indexedsearch"]
-	path = vim/vim/bundle/indexedsearch
-	url = https://github.com/vim-scripts/IndexedSearch
-[submodule "vim/vim/bundle/fuzzyfinder"]
-	path = vim/vim/bundle/fuzzyfinder
-	url = https://github.com/vim-scripts/FuzzyFinder
-[submodule "vim/vim/bundle/l9"]
-	path = vim/vim/bundle/l9
-	url = https://github.com/vim-scripts/L9
-[submodule "vim/vim/bundle/ack"]
-	path = vim/vim/bundle/ack
-	url = https://github.com/mileszs/ack.vim
 [submodule "modules/ls-colors-solarized"]
 	path = modules/ls-colors-solarized
 	url = https://github.com/sigurdga/ls-colors-solarized
 [submodule "modules/gnome-terminal-colors-solarized"]
 	path = modules/gnome-terminal-colors-solarized
 	url = https://github.com/sigurdga/gnome-terminal-colors-solarized
-[submodule "vim/vim/bundle/haskell-conceal"]
-	path = vim/vim/bundle/haskell-conceal
-	url = https://github.com/Twinside/vim-haskellConceal
-[submodule "vim/vim/bundle/sqlutilities"]
-	path = vim/vim/bundle/sqlutilities
-	url = https://github.com/vim-scripts/SQLUtilities
-[submodule "vim/vim/bundle/align"]
-	path = vim/vim/bundle/align
-	url = https://github.com/vim-scripts/Align
-[submodule "vim/vim/bundle/pyflakes-pathogen"]
-	path = vim/vim/bundle/pyflakes-pathogen
-	url = https://github.com/mitechie/pyflakes-pathogen
 [submodule "vim/vim/bundle/supertab"]
 	path = vim/vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
-[submodule "vim/vim/bundle/javacomplete"]
-	path = vim/vim/bundle/javacomplete
-	url = https://github.com/vim-scripts/javacomplete
 [submodule "vim/vim/bundle/vim-latex"]
 	path = vim/vim/bundle/vim-latex
 	url = https://github.com/jcf/vim-latex
-[submodule "vim/vim/bundle/coffee-script"]
-	path = vim/vim/bundle/coffee-script
-	url = https://github.com/kchmck/vim-coffee-script
