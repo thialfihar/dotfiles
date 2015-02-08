@@ -28,7 +28,7 @@ adjust_backlight() {
     max=$(get_max_backlight)
     case $1 in
     off)
-        set_backlight 0 $2
+        set_backlight 0
         ;;
     up)
         if test "${current}" -lt "${max}" ; then
