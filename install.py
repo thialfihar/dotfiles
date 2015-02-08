@@ -93,7 +93,7 @@ class Dotcommand(Base):
 
         tmp_filename = '/tmp/dotfiles_install_command'
         print("executing: %s" % self.command)
-        f = file(tmp_filename, 'w')
+        f = open(tmp_filename, 'w')
         f.write("#!/bin/bash -e\ncd '%s'\n" % BASE_DIR)
         f.write(self.command)
         f.close()
