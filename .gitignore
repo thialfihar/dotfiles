@@ -1,3 +1,5 @@
 # files created by vim
 vim/vim/backups
 vim/vim/.netrwhist
+__pycache__
+*.sublime-*
