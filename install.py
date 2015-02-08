@@ -110,6 +110,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('git/git_template', '~/.git_template'),
             Dotfile('git/gitconfig', '~/.gitconfig'),
             Dotfile('git/gitk', '~/.gitk'),
+            Dotfile('git/gitignore_global', '~/.gitignore_global'),
 
             Dotfile('vim/vim', '~/.vim'),
             Dotfile('vim/vimrc', '~/.vimrc'),
