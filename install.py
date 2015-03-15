@@ -124,6 +124,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
             Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
             Dotfile('system/compton.conf', '~/.config/compton.conf'),
+            Dotfile('modules/docker-zsh-completion/_docker', '~/.zsh/completion/_docker'),
             ]
 
 scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
