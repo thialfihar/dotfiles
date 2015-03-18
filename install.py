@@ -120,6 +120,9 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('vim/vim', '~/.vim'),
             Dotfile('vim/vimrc', '~/.vimrc'),
 
+            Dotfile('vimperator/vimperator/colors', '~/.vimperator/colors'),
+            Dotfile('vimperator/vimperatorrc', '~/.vimperatorrc'),
+
             Dotfile('oh-my-zsh', '~/.oh-my-zsh'),
             Dotfile('oh-my-zsh/zshrc', '~/.zshrc'),
 

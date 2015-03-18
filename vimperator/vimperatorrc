@@ -1,0 +1,7 @@
+set gui=nonavigation
+set editor="gvim -f"
+set status=input,location,tabcount,position
+
+set ignorecase=true
+
+colorscheme solarized
