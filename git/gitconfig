@@ -1,6 +1,7 @@
 [alias]
     fa = fetch --all
     ma = checkout master
+    dev = checkout develop
     co = checkout
     lb = checkout -
 	ctags = !.git/hooks/ctags
@@ -29,10 +30,12 @@
     email = thi@thialfiha"r.or"g
 
 [push]
-	default = simple
+    default = current
+
 [grep]
 	extendRegexp = true
 [merge]
 	ff = false
 [pull]
 	ff = only
+    rebase = true
