@@ -44,7 +44,7 @@ class Dotfile(Base):
         destination = os.path.expanduser(self.destination)
 
         print("installing %s -> %s..." % (self.source, self.destination))
-        directory = os.path.dirname(self.destination)
+        directory = os.path.dirname(destination)
         if not os.path.exists(directory):
             print("creating directory %s..." % directory)
             os.makedirs(directory)
