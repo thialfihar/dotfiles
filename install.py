@@ -127,6 +127,9 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('oh-my-zsh/zshrc', '~/.zshrc'),
 
             Dotfile('terminator', '~/.config/terminator'),
+            Dotfile('roxterm/Global', '~/.config/roxterm.sourceforge.net/Global'),
+            Dotfile('roxterm/Colours', '~/.config/roxterm.sourceforge.net/Colours'),
+            Dotfile('roxterm/Profiles', '~/.config/roxterm.sourceforge.net/Profiles'),
 
             Dotfile('Xmodmap', '~/.Xmodmap', platform="linux"),
             Dotfile('i3/i3', '~/.i3', test="which i3"),
