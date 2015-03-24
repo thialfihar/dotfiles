@@ -236,10 +236,12 @@ set $custom #1c5766
 ###################
 # clientclass border backgr. text indicator
 client.focused $green $green $baseB3 $blue
-client.focused_inactive $cyan $cyan $baseB2 $violet
+client.focused_inactive $cyan $baseA2 $baseB2 $violet
 client.unfocused $baseA2 $baseA2 $baseB1 $baseA1
 #client.urgent $orange $orange $baseB3 $red
 client.urgent $yellow $yellow $baseB3 $orange
+client.placeholder $baseA2 $baseA2 $baseA2 $baseA2
+client.background $baseA2
 
 ####################
 # solarized (borders)
