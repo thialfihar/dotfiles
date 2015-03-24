@@ -26,7 +26,7 @@ floating_modifier $mod
 bindsym XF86PowerOff exec ~/.i3/i3-exit
 
 # start a terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+Shift+c kill
