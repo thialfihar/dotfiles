@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+current=$(dpkg -l | awk '$2 == "sublime-text" {print $3}')
+link=$(lynx -dump -listonly http://www.sublimetext.com/3dev | grep amd64 | grep -v $current | awk '{print $2}')
+if [[ -z "$link" ]]; then
+    echo "no new version found"
+    exit 0
+fi
+
+file=/tmp/$(basename $link)
+wget -O $file $link
+sudo dpkg -i $file

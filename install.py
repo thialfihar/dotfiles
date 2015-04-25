@@ -142,7 +142,8 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
 
 scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
            'libreoffice', 'set_volume', 'get_volume', 'set_brightness',
-           'set_keyboard_brightness', 'myi3status.py', 'nautilus']
+           'set_keyboard_brightness', 'myi3status.py', 'nautilus',
+           'upgrade_sublime_text']
 for script in scripts:
     dotfiles.append(Dotfile('bin/' + script, '~/bin/' + script))
 
