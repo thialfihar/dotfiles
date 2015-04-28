@@ -229,7 +229,7 @@ set $custom #1c5766
 #set $custom #e1cab3
 
 # $i3-background
-#exec_always --no-startup-id xsetroot -solid '#101010'
+exec_always --no-startup-id xsetroot -solid '#101010'
 
 ###################
 # solarized (clean)
