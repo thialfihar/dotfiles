@@ -7,18 +7,16 @@
         "gutter_theme_excludes": [],
         "lint_mode": "background",
         "linters": {
-            "pep8": {
+            "flake8": {
                 "@disable": false,
                 "args": [],
+                "builtins": "",
                 "excludes": [],
                 "ignore": "",
-                "max-line-length": 100,
+                "jobs": "1",
+                "max-complexity": -1,
+                "max-line-length": 110,
                 "select": ""
-            },
-            "pyflakes": {
-                "@disable": false,
-                "args": [],
-                "excludes": []
             }
         },
         "mark_style": "solid underline",
