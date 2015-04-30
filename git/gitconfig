@@ -1,5 +1,5 @@
 [alias]
-    fa = fetch --all
+    fa = fetch --all --tags
     ma = checkout master
     dev = checkout develop
     co = checkout
@@ -7,6 +7,7 @@
 	ctags = !.git/hooks/ctags
     st = status -sb
     mm = merge --no-ff
+    sign = commit --amend -S
 
 [color]
     ui = auto
@@ -39,3 +40,5 @@
 [pull]
 	ff = only
     rebase = true
+[fetch]
+    prune = true

@@ -1,5 +1,12 @@
 __pycache__
 *.py[cod]
+*.ipynb*
 
 *.sublime-project
 *.sublime-workspace
+
+oliver.py
+.cache
+.coveragerc
+htmlcov
+_stats
