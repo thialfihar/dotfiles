@@ -267,7 +267,7 @@ bar {
     #mode hide
     mode dock
     strip_workspace_numbers yes
-    status_command ~/bin/myi3status.py
+    status_command i3blocks
     colors {
         # status
         separator $blue

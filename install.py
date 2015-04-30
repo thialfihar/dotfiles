@@ -133,6 +133,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
 
             Dotfile('Xmodmap', '~/.Xmodmap', platform="linux"),
             Dotfile('i3/i3', '~/.i3', test="which i3"),
+            Dotfile('i3/i3/i3blocks.conf', '~/.i3blocks.conf', test="which i3"),
             Dotfile('bin/battery.py', '~/bin/battery.py', test="which xmobar"),
             Dotfile('modules/ls-colors-solarized/dircolors', '~/.dircolors'),
             Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
