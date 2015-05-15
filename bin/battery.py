@@ -4,11 +4,17 @@ import time
 
 XMOBAR = "xmobar"
 I3BAR = "i3bar"
+I3BLOCKS = "i3blocks"
 
-if len(sys.argv) > 1 and sys.argv[1] == "i3bar":
-    format = I3BAR
-else:
-    format = XMOBAR
+format = I3BLOCKS
+
+if len(sys.argv) > 1:
+    if sys.argv[1] == "i3blocks":
+        format = I3BLOCKS
+    elif sys.argv[1] == "i3bar":
+        format = I3BAR
+    elif sys.argv[1] == "xmobar":
+        format = XMOBAR
 
 RED = '#dc322f'
 YELLOW = '#b58900'
@@ -39,7 +45,7 @@ def get_battery_status(format):
     else:
         color = GREEN
 
-    if format == I3BAR:
+    if format in (I3BLOCKS, I3BAR):
         output = "%.0f%%" % percentage
     else:
         output = '<fc=%s>%.0f</fc>%%' % (color, percentage)
@@ -61,25 +67,29 @@ def get_battery_status(format):
         else:
             color = YELLOW
 
-        if format == I3BAR:
+        if format in (I3BLOCKS, I3BAR):
             output += " [%02d:%02d]" % (eta_hours, eta_minutes)
         else:
             output += ' [<fc=%s>%02d:%02d</fc>]' % (color, eta_hours, eta_minutes)
 
     if ac_online:
-        if format == I3BAR:
+        if format in (I3BLOCKS, I3BAR):
             output += " (ac)"
         else:
             output += ' (<fc=%s>ac</fc>)' % GREEN
 
-    if format == I3BAR:
+    if format == I3BLOCKS:
+        output = "%s\n%s\n%s" % (output, output, color)
+    elif format == I3BAR:
         output = ',{"full_text":"%s", "color": "%s", "separator_block_width": 21}' % (output, color)
 
     return output
 
 
 if __name__ == "__main__":
-    if format == I3BAR:
+    if format == I3BLOCKS:
+        print(get_battery_status(format))
+    elif format == I3BAR:
         while True:
             print(get_battery_status(format))
             time.sleep(5.0)
