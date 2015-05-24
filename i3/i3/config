@@ -32,8 +32,6 @@ bindsym $mod+Return exec gnome-terminal
 bindsym $mod+Shift+c kill
 
 bindsym $mod+b bar mode toggle
-# jump to latest urgent window
-bindsym $mod+space [urgent=latest] focus
 
 # start dmenu (a program launcher)
 bindsym $mod+o exec dmenu_run
@@ -68,6 +66,9 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
+
+bindsym $mod+Shift+plus exec --no-startup-id "xrandr --output eDP1 --scale 0.5x0.5 --do-not-disable-crtc"
+bindsym $mod+Shift+minus exec --no-startup-id "xrandr --output eDP1 --scale 1x1 --do-not-disable-crtc"
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -107,7 +108,7 @@ bindsym $mod+u exec --no-startup-id "i3_load_layout.py"
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+#bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -126,17 +127,19 @@ workspace 8 output eDP1
 workspace 9 output eDP1
 workspace "10:ext" output HDMI1
 
-# switch to workspace
-bindsym $mod+1 workspace 1:shell
-bindsym $mod+2 workspace 2:web
-bindsym $mod+3 workspace 3:dev
-bindsym $mod+4 workspace 4:git
-bindsym $mod+5 workspace 5:gimp
-bindsym $mod+6 workspace 6:irc
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10:ext
+bindsym $mod+1 workspace 1:shell; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+2 workspace 2:web; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+3 workspace 3:dev; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+4 workspace 4:git; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+5 workspace 5:gimp; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+6 workspace 6:irc; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+7 workspace 7; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+8 workspace 8; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+9 workspace 9; exec ~/bin/fix_workspace_scale.py
+bindsym $mod+0 workspace 10:ext; exec ~/bin/fix_workspace_scale.py
+
+# jump to latest urgent window
+bindsym $mod+space [urgent=latest] focus; exec ~/bin/fix_workspace
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1:shell
