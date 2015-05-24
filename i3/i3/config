@@ -32,6 +32,8 @@ bindsym $mod+Return exec gnome-terminal
 bindsym $mod+Shift+c kill
 
 bindsym $mod+b bar mode toggle
+# jump to latest urgent window
+bindsym $mod+space [urgent=latest] focus
 
 # start dmenu (a program launcher)
 bindsym $mod+o exec dmenu_run
@@ -147,6 +149,8 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10:ext
+
+workspace_auto_back_and_forth yes
 
 # reload the configuration file
 #bindsym $mod+Shift+c reload
@@ -266,7 +270,8 @@ bar {
     position top
     #mode hide
     mode dock
-    strip_workspace_numbers yes
+    #strip_workspace_numbers yes
+    workspace_buttons yes
     status_command i3blocks
     colors {
         # status
@@ -300,4 +305,6 @@ bar {
         #active_workspace $custom $custom $baseB2
         #active_workspace $baseB0 $custom $baseB2
     }
+    wheel_up_cmd nop
+    wheel_down_cmd nop
 }
