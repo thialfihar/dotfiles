@@ -196,11 +196,16 @@ new_window 1pixel
 new_float 1pixel
 #hide_edge_borders both
 
-exec_always --no-startup-id "/home/thi/.screenlayout/typical_external.sh; feh --bg-fill /home/thi/Pictures/full_desktop_background.png"
+#exec_always --no-startup-id "/home/thi/.screenlayout/typical_external.sh; feh --bg-fill /home/thi/Pictures/full_desktop_background.png"
+exec_always --no-startup-id "feh --bg-fill /home/thi/Pictures/full_desktop_background.png"
 exec_always --no-startup-id "killall nm-applet; nm-applet"
-exec_always --no-startup-id "killall ginn; ginn"
+#exec_always --no-startup-id "killall ginn; ginn"
 exec_always --no-startup-id "killall compton; compton -b"
 exec_always --no-startup-id "set_keyboard_brightness off quiet"
+
+assign [class="Sublime_text"] 3:dev
+#for_window [class="sublime-text-2"] border 1pixel
+#for_window [class="Gnome-mplayer"] floating enable
 
 # $i3-theme-window
 # solarized accents
@@ -236,7 +241,7 @@ set $custom #1c5766
 #set $custom #e1cab3
 
 # $i3-background
-exec_always --no-startup-id xsetroot -solid '#101010'
+#exec_always --no-startup-id xsetroot -solid '#002b36'
 
 ###################
 # solarized (clean)
