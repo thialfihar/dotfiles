@@ -12,4 +12,18 @@
     { "keys": ["ctrl+alt+t"], "command": "keep", "args": { "keep": "theirs" } },
     { "keys": ["ctrl+alt+a"], "command": "keep", "args": { "keep": "ancestor" } },
     { "keys": ["ctrl+alt+c"], "command": "list_conflict_files" },
+
+    { "keys": ["ctrl+alt+g"], "command": "anaconda_goto"},
+    { "keys": ["ctrl+alt+u"], "command": "anaconda_find_usages"},
+    { "keys": ["ctrl+alt+d"], "command": "anaconda_doc"},
+    { "keys": ["g", "d"], "command": "anaconda_goto",
+        "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.python" },
+            { "key": "setting.command_mode", "operand": true },
+            { "key": "setting.is_widget", "operand": false },
+        ]
+    },
+    { "keys": ["alt+c"], "command": "clone_file"},
+    { "keys": ["alt+r"], "command": "side_bar_move" }
 ]
