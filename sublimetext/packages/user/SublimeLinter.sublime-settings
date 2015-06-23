@@ -17,7 +17,14 @@
                 "max-complexity": -1,
                 "max-line-length": 110,
                 "select": ""
-            }
+            },
+            "json": {
+                "@disable": false,
+                "args": [],
+                "excludes": [],
+                "strict": true
+            },
+
         },
         "mark_style": "solid underline",
         "no_column_highlights_line": false,
