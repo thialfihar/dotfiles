@@ -16,6 +16,7 @@
     { "keys": ["ctrl+alt+g"], "command": "anaconda_goto"},
     { "keys": ["ctrl+alt+u"], "command": "anaconda_find_usages"},
     { "keys": ["ctrl+alt+d"], "command": "anaconda_doc"},
+    { "keys": ["g", "d"], "command": "goto_definition"},
     { "keys": ["g", "d"], "command": "anaconda_goto",
         "context":
         [
