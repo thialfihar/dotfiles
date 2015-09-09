@@ -30,11 +30,11 @@ def calc_time(rate, left):
     return (minutes // 60, minutes % 60)
 
 def get_battery_status(format):
-    max_capacity = int(get_value('/sys/class/power_supply/BAT1/charge_full'))
-    remaining_capacity = int(get_value('/sys/class/power_supply/BAT1/charge_now'))
-    present_rate = int(get_value('/sys/class/power_supply/BAT1/current_now'))
-    charging_state = get_value('/sys/class/power_supply/BAT1/status').lower()
-    ac_online = int(get_value('/sys/class/power_supply/ADP1/online'))
+    max_capacity = int(get_value('/sys/class/power_supply/BAT0/charge_full'))
+    remaining_capacity = int(get_value('/sys/class/power_supply/BAT0/charge_now'))
+    present_rate = int(get_value('/sys/class/power_supply/BAT0/current_now'))
+    charging_state = get_value('/sys/class/power_supply/BAT0/status').lower()
+    ac_online = int(get_value('/sys/class/power_supply/AC/online'))
 
     percentage = 100.0 * remaining_capacity / max_capacity
 
