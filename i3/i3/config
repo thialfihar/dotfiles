@@ -40,6 +40,9 @@ bindsym $mod+o exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+# password picker
+bindsym $mod+z exec /home/thi/dev/password-picker/password-picker.sh
+
 # Fn keys
 bindsym XF86MonBrightnessDown exec "set_brightness -10"
 bindsym XF86MonBrightnessUp exec "set_brightness 10"
