@@ -10,3 +10,9 @@ oliver.py
 .coveragerc
 htmlcov
 _stats
+
+ghostdriver.log
+
+# temporary
+#pytest.ini
+wip

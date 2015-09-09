@@ -19,7 +19,7 @@
 
 [core]
 	excludesfile = /home/thi/.gitignore_global
-	pager = less -S
+	pager = less -RS
 	autocrlf = input
 	editor = /usr/bin/vim
 
@@ -45,3 +45,8 @@
 
 [rerere]
     enabled = true
+
+[notes]
+    rewriteRef = refs/notes/*
+    displayRef = *
+    rewriteMode = concatenate
