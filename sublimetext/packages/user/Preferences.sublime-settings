@@ -23,7 +23,7 @@
 	"ensure_newline_at_eof_on_save": true,
 	"fade_fold_buttons": false,
 	"font_face": "DejaVu Sans Mono",
-	"font_size": 22,
+	"font_size": 20,
 	"highlight_line": true,
 	"ignored_packages":
 	[
