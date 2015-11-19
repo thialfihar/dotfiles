@@ -1,5 +1,5 @@
 #!/bin/bash
-line=$(amixer -c 1 sget Master | grep "Playback.*%")
+line=$(amixer -D pulse get Master | grep "Playback.*%" | head -n 1)
 if [[ "$line" == *off* ]]; then
     echo "muted"
 else

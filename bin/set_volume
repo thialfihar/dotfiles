@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [[ $1 != "toggle" ]]; then
-    amixer -c 1 sset Master unmute
+    amixer -D pulse set Master unmute
 fi
-amixer -c 1 sset Master $1
+amixer -D pulse set Master $1
 value=$(get_volume | sed 's/[.].*$//')
 echo $value
 if [[ $value == "muted" ]]; then
