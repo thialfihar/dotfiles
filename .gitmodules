@@ -1,6 +1,6 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
-	url = github.com:thialfihar/oh-my-zsh
+	url = https://github.com/thialfihar/oh-my-zsh
 	branch = master
 [submodule "vim/vim/bundle/pathogen"]
 	path = vim/vim/bundle/pathogen
@@ -36,7 +36,7 @@
 	branch = master
 [submodule "sublimetext/packages/Solarized"]
 	path = sublimetext/packages/Solarized
-	url = github.com:thialfihar/Solarized
+	url = https://github.com/thialfihar/Solarized
 	branch = master
 [submodule "modules/docker-zsh-completion"]
 	path = modules/docker-zsh-completion
