@@ -117,6 +117,8 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('git/gitk', '~/.gitk'),
             Dotfile('git/gitignore_global', '~/.gitignore_global'),
 
+            Dotfile('spacemacs/spacemacs', '~/.spacemacs'),
+
             Dotfile('vim/vim', '~/.vim'),
             Dotfile('vim/vimrc', '~/.vimrc'),
 
