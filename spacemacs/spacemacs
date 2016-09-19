@@ -306,6 +306,9 @@ you should place your code here."
   (spaceline-compile)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (magic-filetype-enable-vim-filetype)
+  (defun my-indent-setup ()
+    (c-set-offset 'arglist-intro '+))
+  (add-hook 'java-mode-hook 'my-indent-setup)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ruby . t)
