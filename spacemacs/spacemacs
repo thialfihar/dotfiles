@@ -303,8 +303,6 @@ you should place your code here."
   (spaceline-compile)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (magic-filetype-enable-vim-filetype)
-  (define-key evil-normal-state-map (kbd "C-o") 'evil-jump-backward)
-  (define-key evil-normal-state-map (kbd "C-i") 'evil-jump-forward)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ruby . t)
