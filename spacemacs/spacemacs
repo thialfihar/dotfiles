@@ -316,6 +316,7 @@ you should place your code here."
   (setq org-export-babel-evaluate nil)
   (eval-after-load "org"
     '(require 'ox-md nil t))
+  (setq org-html-mathjax-template "<script type=\"text/x-mathjax-config\">\n    MathJax.Hub.Config({\n        displayAlign: \"%ALIGN\",\n        displayIndent: \"%INDENT\",\n\n        \"HTML-CSS\": { scale: %SCALE,\n                        linebreaks: { automatic: \"%LINEBREAKS\" },\n                        webFont: \"%FONT\"\n                       },\n        SVG: {scale: %SCALE,\n              linebreaks: { automatic: \"%LINEBREAKS\" },\n              font: \"%FONT\"},\n        NativeMML: {scale: %SCALE},\n        TeX: {  Macros: {\nN: \"\\\\mathbb{N}\",\nZ: \"\\\\mathbb{Z}\",\nvector: \"\\\\overrightarrow\",\ndcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\end{matrix}\\\\right)\", 2],\ntcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\ #3 \\\\end{matrix}\\\\right)\", 3]\n }, equationNumbers: {autoNumber: \"%AUTONUMBER\"},\n               MultLineWidth: \"%MULTLINEWIDTH\",\n               TagSide: \"%TAGSIDE\",\n               TagIndent: \"%TAGINDENT\"\n             }\n});\n</script>\n<script type=\"text/javascript\"\n        src=\"%PATH\"></script>")
   (setq org-babel-sh-command "zsh")
   (setq org-default-notes-file "~/org/notes.org")
   (add-to-list 'org-agenda-files (expand-file-name "~/org"))
