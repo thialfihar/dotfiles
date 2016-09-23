@@ -327,9 +327,9 @@ you should place your code here."
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/org/todos.org" "Tasks")
-           "* TODO %? \nEntered on %U\n  %i\n  Link: %a")
+           "* TODO %? \nEntered on %U\n  %i\nLink: %a")
           ("j" "Journal" entry (file+datetree "~/org/journal.org")
-           "* %?\nEntered on %U\n  %i\n  Link: %a")))
+           "* %?\nEntered on %U\n  %i\nLink: %a")))
   (defun org-capture-journal ()
     (interactive) (org-capture nil "j"))
   (defun org-capture-todo ()
