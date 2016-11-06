@@ -18,6 +18,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     csv
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -37,15 +38,14 @@ values."
             shell-default-term-shell "/bin/zsh"
             shell-default-height 30
             shell-default-position 'bottom)
-     (spell-checking :variables
-                     spell-checking-enable-auto-dictionary t)
+     ;; spell-checking
      syntax-checking
      ;; version-control
      gtags
      osx
      javascript
      java
-     (ruby :variables ruby-enable-enh-ruby-mode t)
+     ruby
      (colors :variables colors-enable-rainbow-mode t)
      python
      finance
@@ -71,6 +71,8 @@ values."
                                       slim-mode
                                       gnuplot
                                       groovy-mode
+                                      web-mode
+                                      scss-mode
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -117,10 +119,11 @@ values."
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '((recents . 5)
+                                (projects . 7))
    ;; Number of recent files to show in the startup buffer. Ignored if
    ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
-   dotspacemacs-startup-recent-list-size 5
+   dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
@@ -161,8 +164,17 @@ values."
    ;; By default the command key is `:' so ex-commands are executed like in Vim
    ;; with `:' and Emacs commands are executed with `<leader> :'.
    dotspacemacs-command-key ":"
-   ;; If non nil `Y' is remapped to `y$'. (default t)
-   dotspacemacs-remap-Y-to-y$ t
+   ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
+   dotspacemacs-remap-Y-to-y$ nil
+   ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
+   ;; there. (default t)
+   dotspacemacs-retain-visual-state-on-shift t
+   ;; If non-nil, J and K move lines up and down when in visual mode.
+   ;; (default nil)
+   dotspacemacs-visual-line-move-text nil
+   ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
+   ;; (default nil)
+   dotspacemacs-ex-substitute-global nil
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
@@ -190,9 +202,14 @@ values."
    ;; define the position to display `helm', options are `bottom', `top',
    ;; `left', or `right'. (default 'bottom)
    dotspacemacs-helm-position 'bottom
+   ;; Controls fuzzy matching in helm. If set to `always', force fuzzy matching
+   ;; in all non-asynchronous sources. If set to `source', preserve individual
+   ;; source settings. Else, disable fuzzy matching in all sources.
+   ;; (default 'always)
+   dotspacemacs-helm-use-fuzzy 'always
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
-   dotspacemacs-enable-paste-micro-state nil
+   dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
    dotspacemacs-which-key-delay 0.4
@@ -278,7 +295,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-linum-mode)
-  (setq sunshine-appid "WEATHER-SERVICE-APPID")
+  (evil-set-command-property 'spacemacs/evil-smart-goto-definition :jump t)
+  (setq sunshine-appid "c1bab263a0711d3d5d282f0714d2a046")
   (setq sunshine-location "Cape Town,ZA")
   (setq sunshine-units 'metric)
   (setq sunshine-show-icons t)
@@ -288,7 +306,7 @@ you should place your code here."
   (setq mouse-wheel-scroll-amount '(1)) ;; one line at a time
   ;(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
   (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-  (spacemacs/toggle-spelling-checking-off)
+  ;; (spacemacs/toggle-spelling-checking-off)
   (spacemacs/toggle-truncate-lines-on)
   (spacemacs/toggle-mode-line-org-clock-on)
   (spacemacs/toggle-vi-tilde-fringe-off)
@@ -320,6 +338,8 @@ you should place your code here."
   (setq org-export-babel-evaluate nil)
   (eval-after-load "org"
     '(require 'ox-md nil t))
+  (eval-after-load "org"
+    '(require 'ox-koma-letter))
   (setq org-html-mathjax-template "<script type=\"text/x-mathjax-config\">\n    MathJax.Hub.Config({\n        displayAlign: \"%ALIGN\",\n        displayIndent: \"%INDENT\",\n\n        \"HTML-CSS\": { scale: %SCALE,\n                        linebreaks: { automatic: \"%LINEBREAKS\" },\n                        webFont: \"%FONT\"\n                       },\n        SVG: {scale: %SCALE,\n              linebreaks: { automatic: \"%LINEBREAKS\" },\n              font: \"%FONT\"},\n        NativeMML: {scale: %SCALE},\n        TeX: {  Macros: {\nN: \"\\\\mathbb{N}\",\nZ: \"\\\\mathbb{Z}\",\nvector: \"\\\\overrightarrow\",\ndcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\end{matrix}\\\\right)\", 2],\ntcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\ #3 \\\\end{matrix}\\\\right)\", 3]\n }, equationNumbers: {autoNumber: \"%AUTONUMBER\"},\n               MultLineWidth: \"%MULTLINEWIDTH\",\n               TagSide: \"%TAGSIDE\",\n               TagIndent: \"%TAGINDENT\"\n             }\n});\n</script>\n<script type=\"text/javascript\"\n        src=\"%PATH\"></script>")
   (setq org-babel-sh-command "zsh")
   (setq org-default-notes-file "~/org/notes.org")
@@ -336,6 +356,9 @@ you should place your code here."
     (interactive) (org-capture nil "t"))
   (spacemacs/set-leader-keys "ot" 'org-capture-todo)
   (spacemacs/set-leader-keys "oj" 'org-capture-journal)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "|" "DONE(d)")
+          (sequence "{{unchecked}}(u)" "|" "{{checked}}(c)")))
   (defun org-agenda-timeline-all (&optional arg)
     (interactive "P")
     (with-temp-buffer
@@ -351,7 +374,11 @@ you should place your code here."
         '("latexmk -xelatex -shell-escape -quiet -f %f"))
   (setq auto-mode-alist
         (append '(("\\.gplot$" . gnuplot-mode))
+                '(("\\.html?.*" . web-mode))
                  auto-mode-alist))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
   ;; set up spell checking
   ;; if (aspell installed) { use aspell}
   ;; else if (hunspell installed) { use hunspell }
@@ -360,68 +387,68 @@ you should place your code here."
   ;; 1. aspell is older
   ;; 2. looks Kevin Atkinson still get some road map for aspell:
   ;; @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
-  (defun flyspell-detect-ispell-args (&optional run-together)
-    "if RUN-TOGETHER is true, spell check the CamelCase words."
-    (let (args)
-      (cond
-       ((string-match  "aspell$" ispell-program-name)
-        ;; Force the English dictionary for aspell
-        ;; Support Camel Case spelling check (tested with aspell 0.6)
-        (setq args (list "--sug-mode=ultra" "--lang=en_US"))
-        (if run-together
-            (setq args (append args '("--run-together" "--run-together-limit=15" "--run-together-min=2")))))
-       ((string-match "hunspell$" ispell-program-name)
-        ;; Force the English dictionary for hunspell
-        (setq args "-d en_US")))
-      args))
-  (cond
-   ((executable-find "aspell")
-    ;; you may also need `ispell-extra-args'
-    (setq ispell-program-name "aspell"))
-   ((executable-find "hunspell")
-    (setq ispell-program-name "hunspell")
+  ;; (defun flyspell-detect-ispell-args (&optional run-together)
+  ;;   "if RUN-TOGETHER is true, spell check the CamelCase words."
+  ;;   (let (args)
+  ;;     (cond
+  ;;      ((string-match  "aspell$" ispell-program-name)
+  ;;       ;; Force the English dictionary for aspell
+  ;;       ;; Support Camel Case spelling check (tested with aspell 0.6)
+  ;;       (setq args (list "--sug-mode=ultra" "--lang=en_US"))
+  ;;       (if run-together
+  ;;           (setq args (append args '("--run-together" "--run-together-limit=15" "--run-together-min=2")))))
+  ;;      ((string-match "hunspell$" ispell-program-name)
+  ;;       ;; Force the English dictionary for hunspell
+  ;;       (setq args "-d en_US")))
+  ;;     args))
+  ;; (cond
+  ;;  ((executable-find "aspell")
+  ;;   ;; you may also need `ispell-extra-args'
+  ;;   (setq ispell-program-name "aspell"))
+  ;;  ((executable-find "hunspell")
+  ;;   (setq ispell-program-name "hunspell")
 
-    ;; Please note that `ispell-local-dictionary` itself will be passed to hunspell cli with "-d"
-    ;; it's also used as the key to lookup ispell-local-dictionary-alist
-    ;; if we use different dictionary
-    (setq ispell-local-dictionary "en_US")
-    (setq ispell-local-dictionary-alist
-          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
-   (t (setq ispell-program-name nil)))
+  ;;   ;; Please note that `ispell-local-dictionary` itself will be passed to hunspell cli with "-d"
+  ;;   ;; it's also used as the key to lookup ispell-local-dictionary-alist
+  ;;   ;; if we use different dictionary
+  ;;   (setq ispell-local-dictionary "en_US")
+  ;;   (setq ispell-local-dictionary-alist
+  ;;         '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
+  ;;  (t (setq ispell-program-name nil)))
 
-  ;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
-  ;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
-  ;; Please note when you use hunspell, ispell-extra-args will NOT be used.
-  ;; Hack ispell-local-dictionary-alist instead.
-  (setq-default ispell-extra-args (flyspell-detect-ispell-args t))
-  ;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
-  (defadvice ispell-word (around my-ispell-word activate)
-    (let ((old-ispell-extra-args ispell-extra-args))
-      (ispell-kill-ispell t)
-      (setq ispell-extra-args (flyspell-detect-ispell-args))
-      ad-do-it
-      (setq ispell-extra-args old-ispell-extra-args)
-      (ispell-kill-ispell t)
-      ))
+  ;; ;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
+  ;; ;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
+  ;; ;; Please note when you use hunspell, ispell-extra-args will NOT be used.
+  ;; ;; Hack ispell-local-dictionary-alist instead.
+  ;; (setq-default ispell-extra-args (flyspell-detect-ispell-args t))
+  ;; ;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
+  ;; (defadvice ispell-word (around my-ispell-word activate)
+  ;;   (let ((old-ispell-extra-args ispell-extra-args))
+  ;;     (ispell-kill-ispell t)
+  ;;     (setq ispell-extra-args (flyspell-detect-ispell-args))
+  ;;     ad-do-it
+  ;;     (setq ispell-extra-args old-ispell-extra-args)
+  ;;     (ispell-kill-ispell t)
+  ;;     ))
 
-  (defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
-    (let ((old-ispell-extra-args ispell-extra-args))
-      (ispell-kill-ispell t)
-      ;; use emacs original arguments
-      (setq ispell-extra-args (flyspell-detect-ispell-args))
-      ad-do-it
-      ;; restore our own ispell arguments
-      (setq ispell-extra-args old-ispell-extra-args)
-      (ispell-kill-ispell t)
-      ))
+  ;; (defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
+  ;;   (let ((old-ispell-extra-args ispell-extra-args))
+  ;;     (ispell-kill-ispell t)
+  ;;     ;; use emacs original arguments
+  ;;     (setq ispell-extra-args (flyspell-detect-ispell-args))
+  ;;     ad-do-it
+  ;;     ;; restore our own ispell arguments
+  ;;     (setq ispell-extra-args old-ispell-extra-args)
+  ;;     (ispell-kill-ispell t)
+  ;;     ))
 
-  (defun add-word-to-personal-dictionary ()
-    (interactive)
-    (let ((current-location (point))
-          (word (flyspell-get-word)))
-      (when (consp word)
-        (flyspell-do-correct 'save nil (car word) current-location (cadr word) (caddr word) current-location))))
-  (spacemacs/set-leader-keys "Sa" 'add-word-to-personal-dictionary)
+  ;; (defun add-word-to-personal-dictionary ()
+  ;;   (interactive)
+  ;;   (let ((current-location (point))
+  ;;         (word (flyspell-get-word)))
+  ;;     (when (consp word)
+  ;;       (flyspell-do-correct 'save nil (car word) current-location (cadr word) (caddr word) current-location))))
+  ;; (spacemacs/set-leader-keys "Sa" 'add-word-to-personal-dictionary)
   )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
