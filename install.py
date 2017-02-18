@@ -150,14 +150,6 @@ scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
 for script in scripts:
     dotfiles.append(Dotfile('bin/' + script, '~/bin/' + script))
 
-sublime_present = "test -d ~/.config/sublime-text-3"
-for full_path in glob.glob('sublimetext/packages/user/*'):
-    filename = os.path.basename(full_path)
-    dotfiles.append(Dotfile(full_path, '~/.config/sublime-text-3/Packages/User/' + filename,
-                            test=sublime_present))
-
-dotfiles.append(Dotfile('sublimetext/packages/Solarized', '~/.config/sublime-text-3/Packages/Solarized',
-                        test=sublime_present))
 
 commands = []
 
