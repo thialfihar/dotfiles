@@ -127,6 +127,7 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
 
             Dotfile('oh-my-zsh', '~/.oh-my-zsh'),
             Dotfile('oh-my-zsh/zshrc', '~/.zshrc'),
+            Dotfile('oh-my-zsh/zshenv.osx', '~/.zshenv', platform='darwin'),
 
             Dotfile('terminator', '~/.config/terminator'),
             Dotfile('roxterm/Global', '~/.config/roxterm.sourceforge.net/Global'),
