@@ -1,4 +1,12 @@
 #!/bin/zsh -e
 
-offlineimap
+function fail {
+    echo ":warning: failed"
+    echo "~~~"
+    exit 0
+}
+
+echo "syncing..."
+echo "~~~"
+offlineimap >> /tmp/sync-mail.log 2>&1 || fail
 ~/bin/notmuch-poll

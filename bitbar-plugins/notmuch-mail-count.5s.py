@@ -14,7 +14,7 @@ unread_mails = subprocess.check_output("/usr/local/bin/notmuch search tag:unread
 mails = unread_mails.decode("utf-8").split("\n")
 count = len(mails)
 if count:
-    print(":incoming_envelope: {count} unread | color=red size=12".format(count=count))
+    print(":incoming_envelope: {count} unread | color=red".format(count=count))
 else:
     print("")
 
@@ -33,6 +33,6 @@ for m in mails:
     subject = mo.group("subject")[:64].replace('|', ':')
     people = " ".join(mo.group("people").split()[:2]).replace('|', ',').strip(",")
 
-    print(("{subject} - {people} | color=green size=12 terminal=false " +
+    print(("{subject} - {people} | color=green terminal=false " +
            "bash={home}/bin/open-mail-in-emacs-osx param1={thread}")
             .format(thread=thread, subject=subject, people=people, home=home))
