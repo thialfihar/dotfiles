@@ -11,12 +11,12 @@ home = os.path.expanduser("~")
 
 unread_mails = subprocess.check_output("/usr/local/bin/notmuch search tag:unread".split())
 
-mails = unread_mails.decode("utf-8").strip().split("\n")
+mails = list(filter(lambda x: x.strip(), unread_mails.decode("utf-8").split("\n")))
 count = len(mails)
 if count:
     print(":incoming_envelope: {count} unread | color=red".format(count=count))
 else:
-    print("")
+    print("no unread mails | color=#707070")
 
 print("---")
 
