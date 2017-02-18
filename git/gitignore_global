@@ -1,3 +1,4 @@
+.DS_Store
 __pycache__
 *.py[cod]
 *.ipynb*
@@ -16,3 +17,23 @@ ghostdriver.log
 # temporary
 #pytest.ini
 wip
+*.iml
+build
+brazil-unit-tests
+
+# emacs
+.#*
+
+# grailsj
+*.ipr
+*.iws
+
+.projectile
+
+# spacemacs gtags stuff
+GPATH
+GRTAGS
+GTAGS
+
+alfred-org-capture.el
+ox-twbs.el
