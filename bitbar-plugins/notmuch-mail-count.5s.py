@@ -11,7 +11,7 @@ home = os.path.expanduser("~")
 
 unread_mails = subprocess.check_output("/usr/local/bin/notmuch search tag:unread".split())
 
-mails = unread_mails.decode("utf-8").split("\n")
+mails = unread_mails.decode("utf-8").strip().split("\n")
 count = len(mails)
 if count:
     print(":incoming_envelope: {count} unread | color=red".format(count=count))
@@ -22,8 +22,6 @@ print("---")
 
 pattern = re.compile(r'^(?P<thread>\S*) +\S+ +\S+ +\S+ +(?P<people>.*?); +(?P<subject>.*?)( +\([^)]*\))?$')
 for m in mails:
-    if not m.strip():
-        continue
     mo = pattern.match(m)
     if not mo:
         print("didn't match: " + m)
