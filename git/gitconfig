@@ -1,13 +1,18 @@
 [alias]
     fa = fetch --all --tags
     ma = checkout master
+    main = checkout mainline
     dev = checkout develop
     co = checkout
     lb = checkout -
-	ctags = !.git/hooks/ctags
+    ctags = !.git/hooks/ctags
     st = status -sb
     mm = merge --no-ff
     sign = commit --amend -S
+    dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+    cr = !git --no-pager log --reverse --pretty='format:commit: %H%n%n%B' mainline..
+    sh = show --ws-error-highlight=old,new,context
+    df = diff --ws-error-highlight=old,new,context
 
 [color]
     ui = auto
@@ -18,13 +23,13 @@
     grep = auto
 
 [core]
-	excludesfile = /home/thi/.gitignore_global
-	pager = less -RS
-	autocrlf = input
-	editor = /usr/bin/vim
+    excludesfile = ~/.gitignore_global
+    pager = less -RS
+    autocrlf = input
+    editor = /usr/bin/vim
 
 [init]
-	templatedir = ~/.git_template
+    templatedir = ~/.git_template
 
 [user]
     name = Thialfihar
@@ -34,19 +39,28 @@
     default = current
 
 [grep]
-	extendRegexp = true
+    extendRegexp = true
+
 [merge]
-	ff = false
+    ff = false
+
 [pull]
-	ff = only
+    ff = only
     rebase = true
+
 [fetch]
     prune = true
 
+[log]
+    color = true
+
 [rerere]
-    enabled = true
+    #enabled = true
 
 [notes]
     rewriteRef = refs/notes/*
     displayRef = *
     rewriteMode = concatenate
+
+[diff]
+    wsErrorHighlight = old,new,context
