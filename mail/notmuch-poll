@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+echo "importing mail..."
+/usr/local/bin/notmuch new
+
+echo "tagging messages..."
+/usr/local/bin/notmuch tag --batch --input=~/.notmuch-tagging-rules
+
+new_count=$(notmuch count tag:new)
+unread_count=$(notmuch count tag:unread)
+if [ "$new_count" -gt 0 ]; then
+  /usr/local/bin/growlnotify --image ~/dev/dotfiles/mail/mail-icon-1.png -m "$new_count new emails"$'\n'"$unread_count unread emails" -n Email
+fi
+
+notmuch tag -new tag:new
+echo "done."

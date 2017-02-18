@@ -1,0 +1,4 @@
+#!/bin/zsh -e
+
+offlineimap
+~/bin/notmuch-poll

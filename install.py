@@ -141,15 +141,13 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('gtkrc-2.0', '~/.gtkrc-2.0'),
             Dotfile('system/compton.conf', '~/.config/compton.conf'),
             Dotfile('modules/docker-zsh-completion/_docker', '~/.zsh/completion/_docker'),
+
+            Dotfile('mail/offlineimap.py', '~/.offlineimap.py')
             ]
 
-scripts = ['start_cmus_in_tmux.sh', 'suspend_laptop', 'themeless', 'firefox',
-           'libreoffice', 'set_volume', 'get_volume', 'set_brightness',
-           'set_keyboard_brightness', 'myi3status.py', 'nautilus',
-           'upgrade_sublime_text', 'xrandr_scale.sh', 'fix_workspace_scale.py']
-for script in scripts:
-    dotfiles.append(Dotfile('bin/' + script, '~/bin/' + script))
-
+scripts = ["mail/notmuch-poll", "mail/sync-mail", "mail/open-mail-in-emacs-osx"]
+for script in glob.glob("bin/*") + scripts:
+    dotfiles.append(Dotfile(script, os.path.join("~/bin", os.path.basename(script))))
 
 commands = []
 
