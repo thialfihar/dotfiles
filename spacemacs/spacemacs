@@ -18,6 +18,8 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     html
+     sql
      csv
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -37,13 +39,13 @@ values."
             shell-default-term-shell "/bin/zsh"
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
+     spell-checking
      syntax-checking
      ;; version-control
      gtags
      osx
      javascript
-     java
+     ;; java
      ruby
      (colors :variables colors-enable-rainbow-mode t)
      python
@@ -56,13 +58,14 @@ values."
      xkcd
      selectric
      yaml
+     notmuch
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
-                                      ox-twbs
+                                      evil-numbers
                                       ox-mediawiki
                                       magic-filetype
                                       robe
@@ -74,7 +77,9 @@ values."
                                       scss-mode
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(smartparens
+                                    persp-mode
+                                    )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -261,7 +266,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -302,16 +307,24 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (add-to-list 'exec-path "/usr/local/bin")
   (setq-default
    dotspacemacs-themes '(solarized-dark
                          solarized-light)
-   dotspacemacs-default-font '("DejaVu Sans Mono"
+   dotspacemacs-default-font '("DejaVu Sans Mono for Powerline"
                                :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
    truncate-lines t
    exec-path-from-shell-check-startup-files t
+   solarized-use-variable-pitch nil
+   solarized-scale-org-headlines nil
+   solarized-height-minus-1 1
+   solarized-height-plus-1 1
+   solarized-height-plus-2 1
+   solarized-height-plus-3 1
+   solarized-height-plus-4 1
    ))
 
 (defun dotspacemacs/user-config ()
@@ -321,7 +334,61 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (global-linum-mode)
+  ;; this solves some performance issues with projectile file listings
+  (setq shell-file-name "/bin/bash")
+  (defun loadup-gen ()
+    "Generate the lines to include in the lisp/loadup.el file
+to place all of the libraries that are loaded by your InitFile
+into the main dumped emacs"
+    (interactive)
+    (defun get-loads-from-*Messages* ()
+      (save-excursion
+        (let ((retval ()))
+          (set-buffer "*Messages*")
+          (beginning-of-buffer)
+          (while (search-forward-regexp "^Loading " nil t)
+            (let ((start (point)))
+              (search-forward "...")
+              (backward-char 3)
+              (setq retval (cons (buffer-substring-no-properties start (point)) retval))))
+          retval)))
+    (map 'list
+         (lambda (file) (princ (format "(load \"%s\")\n" file)))
+         (get-loads-from-*Messages*)))
+  (global-company-mode)
+  (setq send-mail-function 'message-smtpmail-send-it
+        smtpmail-smtp-server "ballard.amazon.com"
+        smtpmail-stream-type 'starttls
+        smtpmail-smtp-service 1587)
+  (setq-default notmuch-search-oldest-first nil)
+  (load-file "~/.emacs.d/alfred-org-capture.el")
+  (load-file "~/.emacs.d/ox-twbs.el")
+  (setq org-src-fontify-natively t)
+  (setq org-highlight-latex-and-related '(latex script entities))
+  (setq-default fill-column 80)
+  (setq-default org-tags-column 80)
+  (setq-default git-commit-fill-column 70)
+  (setq-default git-commit-summary-max-length 50)
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (defun sql-beautify-region (beg end)
+    "Beautify SQL in region between beg and END."
+    (interactive "r")
+    (save-excursion
+      (shell-command-on-region beg end "sqlformat -a -r -s -k upper -i lower -" nil t)))
+
+  (defun sql-beautify-buffer ()
+    "Beautify SQL in buffer."
+    (interactive)
+    (sql-beautify-region (point-min) (point-max)))
+  (defun sql-beautify-region-or-buffer ()
+    "Beautify SQL for the entire buffer or the marked region between beg and end"
+    (interactive)
+    (if (use-region-p)
+        (sql-beautify-region (region-beginning) (region-end))
+      (sql-beautify-buffer)))
+  ;; (add-hook 'sql-mode-hook '(lambda ()
+  ;;                             ;; beautify region or buffer
+  ;;                             (define-key evil-visual-state-map (kbd "=") 'sql-beautify-region-or-buffer)))
   (evil-set-command-property 'spacemacs/evil-smart-goto-definition :jump t)
   (setq sunshine-appid "c1bab263a0711d3d5d282f0714d2a046")
   (setq sunshine-location "Cape Town,ZA")
@@ -333,7 +400,6 @@ you should place your code here."
   (setq mouse-wheel-scroll-amount '(1)) ;; one line at a time
   ;(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
   (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-  ;; (spacemacs/toggle-spelling-checking-off)
   (spacemacs/toggle-truncate-lines-on)
   (spacemacs/toggle-mode-line-org-clock-on)
   (spacemacs/toggle-vi-tilde-fringe-off)
@@ -366,6 +432,8 @@ you should place your code here."
     '(require 'ox-md nil t))
   (eval-after-load "org"
     '(require 'ox-koma-letter))
+  (eval-after-load "org"
+    '(require 'org-notmuch))
   (setq org-html-mathjax-template "<script type=\"text/x-mathjax-config\">\n    MathJax.Hub.Config({\n        displayAlign: \"%ALIGN\",\n        displayIndent: \"%INDENT\",\n\n        \"HTML-CSS\": { scale: %SCALE,\n                        linebreaks: { automatic: \"%LINEBREAKS\" },\n                        webFont: \"%FONT\"\n                       },\n        SVG: {scale: %SCALE,\n              linebreaks: { automatic: \"%LINEBREAKS\" },\n              font: \"%FONT\"},\n        NativeMML: {scale: %SCALE},\n        TeX: {  Macros: {\nN: \"\\\\mathbb{N}\",\nZ: \"\\\\mathbb{Z}\",\nvector: \"\\\\overrightarrow\",\ndcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\end{matrix}\\\\right)\", 2],\ntcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\ #3 \\\\end{matrix}\\\\right)\", 3]\n }, equationNumbers: {autoNumber: \"%AUTONUMBER\"},\n               MultLineWidth: \"%MULTLINEWIDTH\",\n               TagSide: \"%TAGSIDE\",\n               TagIndent: \"%TAGINDENT\"\n             }\n});\n</script>\n<script type=\"text/javascript\"\n        src=\"%PATH\"></script>")
   (setq org-babel-sh-command "zsh")
   (setq org-default-notes-file "~/org/notes.org")
@@ -384,7 +452,11 @@ you should place your code here."
   (spacemacs/set-leader-keys "oj" 'org-capture-journal)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "|" "DONE(d)")
-          (sequence "{{unchecked}}(u)" "|" "{{checked}}(c)")))
+          (sequence "GOAL(g)" "|" "ACCOMPLISHED(a)")
+          (sequence "READ(r)" "|" "DONE(d)")
+          (sequence "WATCH(w)" "|" "DONE(d)")
+          (sequence "CONTACT(c)" "|" "DONE(d)")
+          ))
   (defun org-agenda-timeline-all (&optional arg)
     (interactive "P")
     (with-temp-buffer
@@ -413,68 +485,68 @@ you should place your code here."
   ;; 1. aspell is older
   ;; 2. looks Kevin Atkinson still get some road map for aspell:
   ;; @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
-  ;; (defun flyspell-detect-ispell-args (&optional run-together)
-  ;;   "if RUN-TOGETHER is true, spell check the CamelCase words."
-  ;;   (let (args)
-  ;;     (cond
-  ;;      ((string-match  "aspell$" ispell-program-name)
-  ;;       ;; Force the English dictionary for aspell
-  ;;       ;; Support Camel Case spelling check (tested with aspell 0.6)
-  ;;       (setq args (list "--sug-mode=ultra" "--lang=en_US"))
-  ;;       (if run-together
-  ;;           (setq args (append args '("--run-together" "--run-together-limit=15" "--run-together-min=2")))))
-  ;;      ((string-match "hunspell$" ispell-program-name)
-  ;;       ;; Force the English dictionary for hunspell
-  ;;       (setq args "-d en_US")))
-  ;;     args))
-  ;; (cond
-  ;;  ((executable-find "aspell")
-  ;;   ;; you may also need `ispell-extra-args'
-  ;;   (setq ispell-program-name "aspell"))
-  ;;  ((executable-find "hunspell")
-  ;;   (setq ispell-program-name "hunspell")
+  (defun flyspell-detect-ispell-args (&optional run-together)
+    "if RUN-TOGETHER is true, spell check the CamelCase words."
+    (let (args)
+      (cond
+       ((string-match  "aspell$" ispell-program-name)
+        ;; Force the English dictionary for aspell
+        ;; Support Camel Case spelling check (tested with aspell 0.6)
+        (setq args (list "--sug-mode=ultra" "--lang=en"))
+        (if run-together
+            (setq args (append args '("--run-together" "--run-together-limit=15" "--run-together-min=2")))))
+       ((string-match "hunspell$" ispell-program-name)
+        ;; Force the English dictionary for hunspell
+        (setq args "-d en_US")))
+      args))
+  (cond
+   ((executable-find "aspell")
+    ;; you may also need `ispell-extra-args'
+    (setq ispell-program-name "aspell"))
+   ((executable-find "hunspell")
+    (setq ispell-program-name "hunspell")
 
-  ;;   ;; Please note that `ispell-local-dictionary` itself will be passed to hunspell cli with "-d"
-  ;;   ;; it's also used as the key to lookup ispell-local-dictionary-alist
-  ;;   ;; if we use different dictionary
-  ;;   (setq ispell-local-dictionary "en_US")
-  ;;   (setq ispell-local-dictionary-alist
-  ;;         '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
-  ;;  (t (setq ispell-program-name nil)))
+    ;; Please note that `ispell-local-dictionary` itself will be passed to hunspell cli with "-d"
+    ;; it's also used as the key to lookup ispell-local-dictionary-alist
+    ;; if we use different dictionary
+    (setq ispell-local-dictionary "en_US")
+    (setq ispell-local-dictionary-alist
+          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
+   (t (setq ispell-program-name nil)))
 
-  ;; ;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
-  ;; ;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
-  ;; ;; Please note when you use hunspell, ispell-extra-args will NOT be used.
-  ;; ;; Hack ispell-local-dictionary-alist instead.
-  ;; (setq-default ispell-extra-args (flyspell-detect-ispell-args t))
-  ;; ;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
-  ;; (defadvice ispell-word (around my-ispell-word activate)
-  ;;   (let ((old-ispell-extra-args ispell-extra-args))
-  ;;     (ispell-kill-ispell t)
-  ;;     (setq ispell-extra-args (flyspell-detect-ispell-args))
-  ;;     ad-do-it
-  ;;     (setq ispell-extra-args old-ispell-extra-args)
-  ;;     (ispell-kill-ispell t)
-  ;;     ))
+  ;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
+  ;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
+  ;; Please note when you use hunspell, ispell-extra-args will NOT be used.
+  ;; Hack ispell-local-dictionary-alist instead.
+  (setq-default ispell-extra-args (flyspell-detect-ispell-args t))
+  ;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
+  (defadvice ispell-word (around my-ispell-word activate)
+    (let ((old-ispell-extra-args ispell-extra-args))
+      (ispell-kill-ispell t)
+      (setq ispell-extra-args (flyspell-detect-ispell-args))
+      ad-do-it
+      (setq ispell-extra-args old-ispell-extra-args)
+      (ispell-kill-ispell t)
+      ))
 
-  ;; (defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
-  ;;   (let ((old-ispell-extra-args ispell-extra-args))
-  ;;     (ispell-kill-ispell t)
-  ;;     ;; use emacs original arguments
-  ;;     (setq ispell-extra-args (flyspell-detect-ispell-args))
-  ;;     ad-do-it
-  ;;     ;; restore our own ispell arguments
-  ;;     (setq ispell-extra-args old-ispell-extra-args)
-  ;;     (ispell-kill-ispell t)
-  ;;     ))
+  (defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
+    (let ((old-ispell-extra-args ispell-extra-args))
+      (ispell-kill-ispell t)
+      ;; use emacs original arguments
+      (setq ispell-extra-args (flyspell-detect-ispell-args))
+      ad-do-it
+      ;; restore our own ispell arguments
+      (setq ispell-extra-args old-ispell-extra-args)
+      (ispell-kill-ispell t)
+      ))
 
-  ;; (defun add-word-to-personal-dictionary ()
-  ;;   (interactive)
-  ;;   (let ((current-location (point))
-  ;;         (word (flyspell-get-word)))
-  ;;     (when (consp word)
-  ;;       (flyspell-do-correct 'save nil (car word) current-location (cadr word) (caddr word) current-location))))
-  ;; (spacemacs/set-leader-keys "Sa" 'add-word-to-personal-dictionary)
+  (defun add-word-to-personal-dictionary ()
+    (interactive)
+    (let ((current-location (point))
+          (word (flyspell-get-word)))
+      (when (consp word)
+        (flyspell-do-correct 'save nil (car word) current-location (cadr word) (caddr word) current-location))))
+  (spacemacs/set-leader-keys "Sa" 'add-word-to-personal-dictionary)
   )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -486,6 +558,13 @@ you should place your code here."
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
+ '(custom-safe-themes
+   (quote
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(excorporate-configuration
+   (quote
+    ("orrunge@amazon.com" . "https://ex-dub-cas.amazon.com/ews/exchange.asmx")))
  '(fci-rule-color "#073642" t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -518,11 +597,27 @@ you should place your code here."
      ("account" "%(binary) -f %(ledger-file) reg %(account)"))))
  '(magit-diff-use-overlays nil)
  '(magit-merge-arguments (quote ("--no-ff")))
+ '(notmuch-saved-searches
+   (quote
+    ((:name "inbox" :query "tag:inbox" :key "i")
+     (:name "unread" :query "tag:unread" :key "u")
+     (:name "team" :query "tag:team AND NOT tag:review" :key "t")
+     (:name "cr" :query "tag:review" :key "c")
+     (:name "challenge" :query "tag:challenge" :key "h")
+     (:name "mailing-list" :query "tag:mailing-list" :key "m")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "s")
+     (:name "drafts" :query "tag:draft" :key "d")
+     (:name "all mail" :query "*" :key "a"))))
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
+ '(package-selected-packages
+   (quote
+    (multiple-cursors company-emacs-eclim eclim anaconda-mode evil avy notmuch-labeler packed mu4e-maildirs-extension mu4e-alert ht notmuch wanderlust semi flim apel excorporate url-http-ntlm fsm org auto-complete csharp-mode hydra alert haml-mode iedit markdown-mode bind-key tern smartparens highlight company request flycheck projectile inf-ruby flyspell-correct-helm flyspell-correct auto-dictionary which-key web-mode spacemacs-theme spaceline osx-dictionary org-projectile org-plus-contrib open-junk-file magic-filetype info+ indent-guide htmlize google-translate eshell-z company-statistics bind-map helm helm-core yasnippet skewer-mode js2-mode magit magit-popup git-commit yapfify yaml-mode xterm-color xkcd ws-butler with-editor window-numbering web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org theme-changer tagedit sunshine sql-indent spotify solarized-theme smeargle slim-mode simple-httpd shell-pop selectric-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rase rake rainbow-mode rainbow-identifiers rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort pug-mode powerline popwin pip-requirements pbcopy paradox ox-mediawiki osx-trash osx-location orgit org-present org-pomodoro org-download org-bullets omnisharp neotree mwim multi-term move-text mmm-mode minitest markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode ledger-mode launchctl json-mode js2-refactor js-doc ido-vertical-mode hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-spotify helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags flycheck-pos-tip flycheck-ledger flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump cython-mode csv-mode company-web company-tern company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
+ '(send-mail-function (quote smtpmail-send-it))
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
