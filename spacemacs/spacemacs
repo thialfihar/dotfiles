@@ -34,7 +34,8 @@ values."
      emacs-lisp
      git
      markdown
-     org
+     (org :variables
+          org-enable-bootstrap-support t)
      (shell :variables
             shell-default-term-shell "/bin/zsh"
             shell-default-height 30
@@ -362,7 +363,6 @@ into the main dumped emacs"
         smtpmail-smtp-service 1587)
   (setq-default notmuch-search-oldest-first nil)
   (load-file "~/.emacs.d/alfred-org-capture.el")
-  (load-file "~/.emacs.d/ox-twbs.el")
   (setq org-src-fontify-natively t)
   (setq org-highlight-latex-and-related '(latex script entities))
   (setq-default fill-column 80)
