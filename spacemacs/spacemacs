@@ -80,6 +80,7 @@ values."
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(smartparens
                                     persp-mode
+                                    evil-escape
                                     )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
@@ -337,6 +338,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; this solves some performance issues with projectile file listings
   (setq shell-file-name "/bin/bash")
+  (setq vc-follow-symlinks t)
   (defun loadup-gen ()
     "Generate the lines to include in the lisp/loadup.el file
 to place all of the libraries that are loaded by your InitFile
