@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import glob
 import os
 import platform
 import shutil
 import stat
 import subprocess
 import sys
+from glob import glob
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -143,11 +143,10 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('system/compton.conf', '~/.config/compton.conf'),
             Dotfile('modules/docker-zsh-completion/_docker', '~/.zsh/completion/_docker'),
 
-            Dotfile('mail/offlineimap.py', '~/.offlineimap.py')
+            Dotfile('hermod/lib/offlineimap.py', '~/.offlineimap.py')
             ]
 
-scripts = ["mail/notmuch-poll", "mail/sync-mail", "mail/open-mail-in-emacs-osx"]
-for script in glob.glob("bin/*") + scripts:
+for script in glob("bin/*") + glob("hermod/bin/*"):
     dotfiles.append(Dotfile(script, os.path.join("~/bin", os.path.basename(script))))
 
 commands = []

@@ -41,3 +41,6 @@
 [submodule "modules/docker-zsh-completion"]
 	path = modules/docker-zsh-completion
 	url = https://github.com/felixr/docker-zsh-completion
+[submodule "hermod"]
+	path = hermod
+	url = https://github.com/or/hermod
