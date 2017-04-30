@@ -144,7 +144,8 @@ dotfiles = [Dotfile('git/cvsignore', '~/.cvsignore'),
             Dotfile('system/compton.conf', '~/.config/compton.conf'),
             Dotfile('modules/docker-zsh-completion/_docker', '~/.zsh/completion/_docker'),
 
-            Dotfile('hermod/lib/offlineimap.py', '~/.offlineimap.py')
+            Dotfile('hermod/lib/offlineimap.py', '~/.offlineimap.py'),
+            Dotfile('hermod/lib/hermod', '~/.emacs.d/private/hermod'),
             ]
 
 for script in glob("bin/*") + glob("hermod/bin/*"):
