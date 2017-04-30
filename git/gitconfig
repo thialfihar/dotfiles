@@ -10,7 +10,7 @@
     mm = merge --no-ff
     sign = commit --amend -S
     dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-    cr = !git --no-pager log --reverse --pretty='format:commit: %H%n%n%B' mainline..
+    cr = !git --no-pager log --pretty='format:commit: %H%n%n%B' mainline..
     sh = show --ws-error-highlight=old,new,context
     df = diff --ws-error-highlight=old,new,context
 
