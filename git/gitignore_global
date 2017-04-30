@@ -35,5 +35,5 @@ GPATH
 GRTAGS
 GTAGS
 
-alfred-org-capture.el
-ox-twbs.el
+release-info
+version-set
