@@ -27,10 +27,14 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.emacs.d/private/layers/")
+   dotspacemacs-configuration-layer-path '(
+                                           "~/.emacs.d/private/layers/"
+                                           "~/.emacs.d/private/"
+                                           )
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     vimscript
      html
      sql
      csv
@@ -39,6 +43,7 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     helm
      (auto-completion :variables
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete)
@@ -63,16 +68,15 @@ values."
      ruby
      (colors :variables colors-enable-rainbow-mode t)
      python
-     finance
+     ;; finance
      (geolocation :variables
                   geolocation-enable-osx-location-service-support t
                   geolocation-enable-weather-forecast t)
      search-engine
-     spotify
      xkcd
      selectric
      yaml
-     notmuch
+     hermod
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -162,7 +166,7 @@ values."
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
-   ;; Press <SPC> T n to cycle to the next theme in the list (works great
+   ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light)
@@ -177,7 +181,7 @@ values."
                                :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
-   ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
+   ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
    ;; (default "SPC")
    dotspacemacs-emacs-command-key "SPC"
    ;; The key used for Vim Ex commands (default ":")
@@ -192,9 +196,9 @@ values."
    ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
    ;; These variables control whether separate commands are bound in the GUI to
-   ;; the key pairs C-i, TAB and C-m, RET.
-   ;; Setting it to a non-nil value, allows for separate commands under <C-i>
-   ;; and TAB or <C-m> and RET.
+   ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
+   ;; Setting it to a non-nil value, allows for separate commands under `C-i'
+   ;; and TAB or `C-m' and `RET'.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
@@ -203,7 +207,7 @@ values."
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
    ;; there. (default t)
    dotspacemacs-retain-visual-state-on-shift t
-   ;; If non-nil, J and K move lines up and down when in visual mode.
+   ;; If non-nil, `J' and `K' move lines up and down when in visual mode.
    ;; (default nil)
    dotspacemacs-visual-line-move-text nil
    ;; If non-nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
@@ -214,7 +218,7 @@ values."
    ;; If non-nil the default layout name is displayed in the mode-line.
    ;; (default nil)
    dotspacemacs-display-default-layout nil
-   ;; If non-nil then the last auto saved layouts are resume automatically upon
+   ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
    dotspacemacs-auto-resume-layouts nil
    ;; Size (in MB) above which spacemacs will prompt to open the large file
@@ -241,7 +245,7 @@ values."
    ;; source settings. Else, disable fuzzy matching in all sources.
    ;; (default 'always)
    dotspacemacs-helm-use-fuzzy 'always
-   ;; If non-nil the paste micro-state is enabled. When enabled pressing `p`
+   ;; If non-nil the paste micro-state is enabled. When enabled pressing `p'
    ;; several times cycle between the kill ring content. (default nil)
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
@@ -303,11 +307,11 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
-   ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
+   ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
@@ -331,10 +335,13 @@ values."
    dotspacemacs-default-package-repository nil
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
-   ;; `trailing' to delete only the whitespace at end of lines, `changed'to
+   ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
+   ;; Either nil or a number of seconds. If non-nil zone out after the specified
+   ;; number of seconds. (default nil)
+   dotspacemacs-zone-out-when-idle nil
    ))
 
 (defun dotspacemacs/user-init ()
@@ -362,6 +369,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
    solarized-height-plus-2 1
    solarized-height-plus-3 1
    solarized-height-plus-4 1
+   dotspacemacs-line-numbers t
    ))
 
 (defun dotspacemacs/user-config ()
@@ -394,11 +402,18 @@ into the main dumped emacs"
          (lambda (file) (princ (format "(load \"%s\")\n" file)))
          (get-loads-from-*Messages*)))
   (global-company-mode)
+  (defun evil-paste-after-from-0 ()
+    (interactive)
+    (let ((evil-this-register ?0))
+      (call-interactively 'evil-paste-after)))
+  (define-key evil-visual-state-map "p" 'evil-paste-after-from-0)
   (setq send-mail-function 'message-smtpmail-send-it
         smtpmail-smtp-server "ballard.amazon.com"
         smtpmail-stream-type 'starttls
         smtpmail-smtp-service 1587)
-  (setq-default notmuch-search-oldest-first nil)
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+  (setq message-citation-line-format "On %d %B 1%Y %T (UTC), %N allegedly sent:")
+  (setq mm-sign-option 'guided)
   ;; (load-file "~/.emacs.d/alfred-org-capture.el")
   (setq org-src-fontify-natively t)
   (setq org-highlight-latex-and-related '(latex script entities))
@@ -463,14 +478,16 @@ into the main dumped emacs"
      (shell . t)
      (C . t)
      (python . t)
+     (gnuplot . t)
+     (ditaa . t)
      ))
+  (setq org-babel-python-command "python3")
   (setq org-export-babel-evaluate nil)
+  (setq org-confirm-babel-evaluate nil)
   (eval-after-load "org"
     '(require 'ox-md nil t))
   (eval-after-load "org"
     '(require 'ox-koma-letter))
-  (eval-after-load "org"
-    '(require 'org-notmuch))
   (setq org-html-mathjax-template "<script type=\"text/x-mathjax-config\">\n    MathJax.Hub.Config({\n        displayAlign: \"%ALIGN\",\n        displayIndent: \"%INDENT\",\n\n        \"HTML-CSS\": { scale: %SCALE,\n                        linebreaks: { automatic: \"%LINEBREAKS\" },\n                        webFont: \"%FONT\"\n                       },\n        SVG: {scale: %SCALE,\n              linebreaks: { automatic: \"%LINEBREAKS\" },\n              font: \"%FONT\"},\n        NativeMML: {scale: %SCALE},\n        TeX: {  Macros: {\nN: \"\\\\mathbb{N}\",\nZ: \"\\\\mathbb{Z}\",\nvector: \"\\\\overrightarrow\",\ndcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\end{matrix}\\\\right)\", 2],\ntcolvec: [\"\\\\left(\\\\begin{matrix} #1 \\\\\\\\ #2 \\\\ #3 \\\\end{matrix}\\\\right)\", 3]\n }, equationNumbers: {autoNumber: \"%AUTONUMBER\"},\n               MultLineWidth: \"%MULTLINEWIDTH\",\n               TagSide: \"%TAGSIDE\",\n               TagIndent: \"%TAGINDENT\"\n             }\n});\n</script>\n<script type=\"text/javascript\"\n        src=\"%PATH\"></script>")
   (setq org-babel-sh-command "zsh")
   (setq org-default-notes-file "~/org/notes.org")
@@ -478,15 +495,27 @@ into the main dumped emacs"
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/org/todos.org" "Tasks")
-           "* TODO %? \nEntered on %U\n  %i\nLink: %a")
+           "* TODO %? \nEntered on %U\nLink: %a")
           ("j" "Journal" entry (file+datetree "~/org/journal.org")
            "* %?\nEntered on %U\n  %i\nLink: %a")))
+  (defun org-insert-ticket-link ()
+    (interactive)
+    (let* ((link (read-string "Link: "))
+          (desc (nth 0 (last (remove-if (lambda (x) (eq x "")) (split-string link "/"))))))
+      (insert (org-make-link-string link desc))))
   (defun org-capture-journal ()
     (interactive) (org-capture nil "j"))
   (defun org-capture-todo ()
     (interactive) (org-capture nil "t"))
+  (defun clear-all-highlights ()
+    (interactive)
+    (spacemacs/evil-search-clear-highlight)
+    (evil-search-highlight-persist-remove-all))
   (spacemacs/set-leader-keys "ot" 'org-capture-todo)
   (spacemacs/set-leader-keys "oj" 'org-capture-journal)
+  (spacemacs/set-leader-keys "ol" 'org-insert-ticket-link)
+  (spacemacs/set-leader-keys "sc" 'clear-all-highlights)
+  (define-key evil-normal-state-map (kbd "<escape>") 'clear-all-highlights)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "|" "DONE(d)")
           (sequence "GOAL(g)" "|" "ACCOMPLISHED(a)")
@@ -504,6 +533,7 @@ into the main dumped emacs"
       (write-file "/tmp/timeline.org")
       (org-agenda arg "L")))
   (add-to-list 'org-latex-packages-alist '("" "pdftexcmds" "minted"))
+  (setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
   (setq org-latex-listings 'minted)
   (setq org-latex-pdf-process
         '("latexmk -xelatex -shell-escape -quiet -f %f"))
@@ -641,7 +671,7 @@ into the main dumped emacs"
      (:name "team" :query "tag:team AND NOT tag:review" :key "t")
      (:name "cr" :query "tag:review" :key "c")
      (:name "challenge" :query "tag:challenge" :key "h")
-     (:name "mailing-list" :query "tag:mailing-list" :key "m")
+     (:name "mailing-list" :query "tag:mailing-list AND NOT tag:team" :key "m")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "s")
      (:name "drafts" :query "tag:draft" :key "d")
@@ -755,7 +785,7 @@ This function is called at the very end of Spacemacs initialization."
      (:name "team" :query "tag:team AND NOT tag:review" :key "t")
      (:name "cr" :query "tag:review" :key "c")
      (:name "challenge" :query "tag:challenge" :key "h")
-     (:name "mailing-list" :query "tag:mailing-list" :key "m")
+     (:name "mailing-list" :query "tag:mailing-list AND NOT tag:team" :key "m")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "s")
      (:name "drafts" :query "tag:draft" :key "d")
@@ -765,7 +795,7 @@ This function is called at the very end of Spacemacs initialization."
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (ox-twbs winum unfill helm-purpose window-purpose imenu-list fuzzy multiple-cursors company-emacs-eclim eclim anaconda-mode evil avy notmuch-labeler packed mu4e-maildirs-extension mu4e-alert ht notmuch wanderlust semi flim apel excorporate url-http-ntlm fsm org auto-complete csharp-mode hydra alert haml-mode iedit markdown-mode bind-key tern smartparens highlight company request flycheck projectile inf-ruby flyspell-correct-helm flyspell-correct auto-dictionary which-key web-mode spacemacs-theme spaceline osx-dictionary org-projectile org-plus-contrib open-junk-file magic-filetype info+ indent-guide htmlize google-translate eshell-z company-statistics bind-map helm helm-core yasnippet skewer-mode js2-mode magit magit-popup git-commit yapfify yaml-mode xterm-color xkcd ws-butler with-editor window-numbering web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org theme-changer tagedit sunshine sql-indent spotify solarized-theme smeargle slim-mode simple-httpd shell-pop selectric-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rase rake rainbow-mode rainbow-identifiers rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort pug-mode powerline popwin pip-requirements pbcopy paradox ox-mediawiki osx-trash osx-location orgit org-present org-pomodoro org-download org-bullets omnisharp neotree mwim multi-term move-text mmm-mode minitest markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode ledger-mode launchctl json-mode js2-refactor js-doc ido-vertical-mode hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-spotify helm-pydoc helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags flycheck-pos-tip flycheck-ledger flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump cython-mode csv-mode company-web company-tern company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (alert s string-inflection smartparens magit magit-popup evil with-editor company helm helm-core yasnippet notmuch csharp-mode flycheck projectile js2-mode diminish flyspell-correct persp-mode evil-escape define-word yapfify yaml-mode xterm-color xkcd ws-butler winum which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toc-org theme-changer tagedit symon sunshine sql-indent spaceline solarized-theme smeargle slim-mode shell-pop selectric-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rase rake rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements pbcopy paradox ox-twbs ox-mediawiki osx-trash osx-location osx-dictionary orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file omnisharp notmuch-labeler neotree mwim multi-term move-text mmm-mode minitest markdown-toc magit-gitflow magic-filetype macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode ledger-mode launchctl json-mode js2-refactor js-doc info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy flyspell-correct-helm flycheck-pos-tip flycheck-ledger flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav dumb-jump dactyl-mode cython-mode csv-mode company-web company-tern company-statistics company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(send-mail-function (quote smtpmail-send-it))
@@ -794,7 +824,6 @@ This function is called at the very end of Spacemacs initialization."
      (340 . "#268fc6")
      (360 . "#268bd2"))))
  '(vc-annotate-very-old-color nil)
- '(vc-follow-symlinks t)
  '(weechat-color-list
    (quote
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
